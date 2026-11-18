@@ -367,6 +367,68 @@ html.snap { scroll-snap-type: y proximity; }
 }
 .card:hover { border-color: var(--white); }
 
+/* Gallery cards open the photo lightbox */
+.grid .card[role="button"] {
+  cursor: zoom-in;
+}
+
+.grid .card:focus-visible {
+  border-color: var(--white);
+  outline: 2px solid var(--white);
+  outline-offset: 3px;
+}
+
+/* Photo lightbox (Bootstrap modal): photo centred, copyright line below */
+.modal-backdrop {
+  --bs-backdrop-bg: #000;
+  --bs-backdrop-opacity: 0.95;
+}
+
+.lightbox__dialog {
+  width: fit-content;
+  max-width: min(92vw, 60rem);
+  margin-inline: auto;
+}
+
+.lightbox__content {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+.lightbox__close {
+  align-self: flex-end;
+  margin-block-end: 0.75rem;
+  opacity: 0.8;
+}
+
+.lightbox__close:hover,
+.lightbox__close:focus-visible {
+  opacity: 1;
+}
+
+.lightbox__figure {
+  margin: 0;
+  text-align: center;
+}
+
+.lightbox__img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: calc(100svh - 11rem); /* room for the close button, the caption and the modal margins */
+  margin-inline: auto;
+  border-radius: 0.5rem;
+}
+
+.lightbox__caption {
+  margin-block-start: 0.75rem;
+  color: var(--nav-muted);
+  font-size: var(--fs-label);
+  letter-spacing: 0.02em;
+}
+
 /* Section title above the gallery */
 .gallery-title {
   margin: 0 0 0.25rem;
