@@ -89,16 +89,6 @@ body {
   transition: color 0.2s ease, opacity 0.2s ease;
 }
 
-.site-nav__home-link picture {
-  display: contents;
-}
-
-@media (max-width: 40rem) {
-  .site-nav__home-icon {
-    height: 1.75rem; /* home icon on phones */
-  }
-}
-
 .site-nav__home-link {
   display: inline-flex;
   align-items: center;
@@ -111,6 +101,16 @@ body {
   height: clamp(2.5rem, 4vw, 3.75rem); /* script wordmark: sized by height so it stays legible */
   opacity: 0.72;
   transition: opacity 0.2s ease;
+}
+
+@media (max-width: 40rem) {
+  .site-nav__home-icon {
+    height: 1.75rem; /* smaller wordmark on phones so it fits next to the links */
+  }
+
+  .site-nav .nav-links {
+    gap: 1rem;
+  }
 }
 
 .site-nav .nav-links a:hover,
@@ -126,6 +126,13 @@ body {
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 0.45em;
+}
+
+/* phones: smaller bump so logo, links and Instagram fit on one row */
+@media (max-width: 40rem) {
+  .site-nav .nav-links a[aria-current] {
+    font-size: calc(var(--nav-fs) * 1.1);
+  }
 }
 
 .site-nav a:focus-visible {
@@ -596,9 +603,15 @@ html.snap { scroll-snap-type: y proximity; }
   text-align: right;
 }
 
-.site-footer--home .footer-contact a {
+.site-footer--home .footer-contact__details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.site-footer--home .footer-contact__enquiries {
   display: inline-flex;
-  min-height: 44px;
+  min-height: 1.5rem;
   align-items: center;
   color: var(--nav-muted);
   font-size: var(--fs-small);
@@ -611,8 +624,9 @@ html.snap { scroll-snap-type: y proximity; }
   max-width: none;
   color: var(--white);
   font-size: clamp(1rem, 1.4vw, 1.25rem);
-  font-weight: 700;
+  font-weight: 400;
   letter-spacing: 0.02em;
+  line-height: 1.5;
 }
 
 .site-footer--home .footer-copyright {
@@ -622,12 +636,6 @@ html.snap { scroll-snap-type: y proximity; }
   font-size: var(--fs-label);
   line-height: 1.5;
   white-space: nowrap;
-}
-
-.site-footer--home .footer-contact p {
-  max-width: 24rem;
-  font-size: var(--fs-label);
-  line-height: 1.5;
 }
 
 .footer-socials {
@@ -980,39 +988,44 @@ html.snap { scroll-snap-type: y proximity; }
   font-size-adjust: from-font;
 }
 
+/* About hero
+   Phones/tablets: portrait crop of the photo on top, the title and lead
+   start on its dark bottom edge, the rest of the text follows on black.
+   Desktop: full studio photo behind, text on the left, artist on the right. */
 .about-hero {
-  --about-bg: url("../images/aboutme-background.png");
   position: relative;
   isolation: isolate;
-  padding: calc(var(--menu-h) + clamp(3rem, 6vw, 5rem)) var(--pad) clamp(4rem, 7vw, 6rem);
-  background: #0a0a0a;
+  background: #000;
 }
 
-.about-hero::before,
-.about-hero::after {
+.about-hero__media {
+  position: relative;
+  display: block;
+}
+
+.about-hero__media img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  max-height: 88svh;
+  object-fit: cover;
+  object-position: 50% 20%; /* face stays in frame when the height is capped */
+}
+
+/* dark top for the navbar, fade to black at the bottom for the title */
+.about-hero__media::after {
   position: absolute;
   inset: 0;
   content: "";
-  pointer-events: none;
-}
-
-.about-hero::before {
-  z-index: -2;
-  background-image: var(--about-bg);
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-}
-
-.about-hero::after {
-  z-index: -1;
-  background: linear-gradient(to bottom, transparent 70%, #000 100%);
+  background:
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.55) 0%, transparent 18%),
+    linear-gradient(to bottom, transparent 55%, rgba(0, 0, 0, 0.85) 82%, #000 100%);
 }
 
 .about-hero__plus {
   position: absolute;
-  z-index: 1;
-  inset-block-start: calc(var(--menu-h) + 2rem);
+  z-index: 2;
+  inset-block-start: calc(var(--menu-h) + 1rem);
   color: var(--white);
   font-size: clamp(1.5rem, 2vw, 1.8rem);
   line-height: 1;
@@ -1026,57 +1039,19 @@ html.snap { scroll-snap-type: y proximity; }
   inset-inline-end: var(--pad);
 }
 
-.about-hero__plus--bottom-left,
-.about-hero__plus--bottom-right {
-  inset-block-start: auto;
-  inset-block-end: 1.25rem;
-}
-
-.about-hero__plus--bottom-left {
-  inset-inline-start: var(--pad);
-}
-
-.about-hero__plus--bottom-right {
-  inset-inline-end: var(--pad);
-}
-
-.about-hero__inner {
+.about-copy {
   position: relative;
   z-index: 1;
-  display: grid;
-  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
-  grid-template-areas:
-    "title    portrait"
-    "lead     portrait"
-    "body     portrait"
-    "quote    quote";
-  align-items: center;
-  gap: 0 clamp(2rem, 6vw, 5rem);
-  width: min(100%, 76rem);
-  margin-inline: auto;
-}
-
-.about-copy {
-  display: contents; /* its children sit directly in the hero grid */
-  max-width: 62ch;
-  justify-self: center;
-  text-align: right;
-}
-
-.about-title,
-.about-lead,
-.about-body {
-  width: min(100%, 40rem); /* keeps the text column width it had before */
-  justify-self: center;
+  max-width: 40rem;
+  margin: -7rem auto 0; /* pulls the title up onto the photo's dark edge */
+  padding: 0 var(--gutter) clamp(2.5rem, 5vw, 3.5rem);
 }
 
 .about-title {
-  grid-area: title;
   display: flex;
   align-items: center;
-  justify-content: right;
   gap: 0.3em;
-  margin: 0.2rem 0 clamp(1.5rem, 3vw, 2.5rem);
+  margin: 0 0 1rem;
   font-size: var(--fs-lg);
   font-weight: 800;
   letter-spacing: var(--ls-title);
@@ -1089,34 +1064,30 @@ html.snap { scroll-snap-type: y proximity; }
 }
 
 .about-lead {
-  grid-area: lead;
-  margin: 0 auto 1.5rem;
-  font-size: clamp(1rem, 2.2vw, 1.2rem);
-  line-height: 1.65;
+  margin: 0 0 1.5rem;
+  font-size: clamp(1.0625rem, 2.2vw, 1.25rem);
+  line-height: 1.6;
 }
 
 .about-lead em {
   font-family: "Times New Roman", Times, serif;
+  font-size: 1.2em;
   font-style: italic;
 }
 
 .about-body {
-  grid-area: body;
-  max-width: 60ch;
-  margin: 0 auto;
+  margin: 0;
   color: rgba(255, 255, 255, 0.84);
-  font-size: clamp(1rem, 1.2vw, 1.125rem);
-  line-height: 1.8;
+  font-size: clamp(0.9375rem, 1.2vw, 1rem);
+  line-height: 1.75;
 }
 
 .about-quote {
-  grid-area: quote; /* spans both columns = centred on the page */
-  justify-self: center;
   position: relative;
-  max-width: 44rem;
-  margin: clamp(2rem, 4vw, 3rem) auto 0;
-  padding: 1.5rem 2rem;
-  font-size: clamp(1.35rem, 2.4vw, 1.9rem);
+  margin: clamp(2rem, 4vw, 2.5rem) 0 0;
+  padding: 1.5rem 2.5rem;
+  color: var(--nav-muted);
+  font-size: clamp(1.125rem, 2vw, 1.375rem);
   line-height: 1.45;
   text-align: center;
 }
@@ -1126,6 +1097,7 @@ html.snap { scroll-snap-type: y proximity; }
 }
 
 .about-quote strong {
+  color: var(--white);
   font-family: "Times New Roman", Times, serif;
   font-size: calc(1em + 0.1875rem);
   font-weight: 700;
@@ -1149,46 +1121,72 @@ html.snap { scroll-snap-type: y proximity; }
 }
 
 .about-quote::after {
-  inset-block-end: 0;
+  inset-block-end: -1.5rem;
   inset-inline-end: 0;
   content: "\201D";
 }
 
-.about-portrait {
-  grid-area: portrait;
-  position: relative;
-  display: grid;
-  place-items: center;
-  width: min(100%, 24rem);
-  aspect-ratio: 5 / 6;
-  justify-self: center;
-  margin: 1px;
-  border: 1px solid rgba(255, 255, 255, 0.42);
-  border-radius: 0.75rem;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18);
-  object-fit: cover;
+/* tablet: squarer crop, text starts a little higher on the photo */
+@media (min-width: 48rem) and (max-width: 64rem) {
+  .about-hero__media img {
+    aspect-ratio: 1 / 1.05;
+  }
+
+  .about-copy {
+    margin-block-start: -9rem;
+  }
 }
 
-.about-portrait::before,
-.about-portrait::after {
-  position: absolute;
-  display: block;
-  background: rgba(255, 255, 255, 0.18);
-  content: "";
-}
+/* desktop: photo fills the hero, text column ends before the artist */
+@media (min-width: 64.0625rem) {
+  .about-hero {
+    --copy-end: 52%; /* the artist starts at ~57% of the width at every desktop size */
+    display: flex;
+    align-items: center;
+    min-height: min(100svh, 56rem);
+    padding-block: calc(var(--menu-h) + 3rem) 3rem;
+  }
 
-.about-portrait::before {
-  inset-block-start: 27%;
-  width: 5rem;
-  aspect-ratio: 1;
-  border-radius: 50%;
-}
+  .about-hero__media {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+  }
 
-.about-portrait::after {
-  inset-block-end: 17%;
-  width: 58%;
-  height: 34%;
-  border-radius: 50% 50% 12% 12%;
+  .about-hero__media img {
+    height: 100%;
+    max-height: none;
+    aspect-ratio: auto;
+    object-position: 60% 30%;
+  }
+
+  .about-hero__media::after {
+    background:
+      linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 0%, transparent 18%),
+      linear-gradient(to right, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.35) 45%, transparent 60%),
+      linear-gradient(to bottom, transparent 75%, #000 100%);
+  }
+
+  .about-hero__plus {
+    inset-block-start: calc(var(--menu-h) + 1.5rem);
+  }
+
+  .about-copy {
+    box-sizing: border-box;
+    width: min(34rem, calc(var(--copy-end) - var(--gutter) - 3rem));
+    max-width: none;
+    margin: 0 0 0 max(calc(var(--gutter) + 3rem), calc(var(--copy-end) - 34rem));
+    padding: 0;
+    text-align: right;
+  }
+
+  .about-title {
+    justify-content: flex-end;
+  }
+
+  .about-lead {
+    font-size: 1.1875rem;
+  }
 }
 
 .about-services {
@@ -1242,6 +1240,8 @@ html.snap { scroll-snap-type: y proximity; }
 }
 
 .service-card__slashes {
+  display: inline-block;
+  width: 1em; /* fixed width: the title word always starts at 1em + gap */
   font-weight: 400;
 }
 
@@ -1334,77 +1334,56 @@ html.snap { scroll-snap-type: y proximity; }
     background-position: center top;
   }
 
-  .about-hero__inner {
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-areas:
-      "title"
-      "portrait"
-      "lead"
-      "body"
-      "quote";
-    gap: 0;
-  }
-
-  .about-hero::before {
-    background-size: 100% auto;
-    background-position: center top;
-  }
-
-  .about-portrait {
-    width: min(76%, 22rem);
-    margin-block-end: 2.5rem;
-  }
-
   .service-card__details-inner {
     grid-template-columns: minmax(0, 1fr);
     gap: 0.75rem;
   }
 
+  /* open card: photo under the title (lined up with the word, not the //),
+     then the paragraph, then See more on the right */
   .service-card__details-inner img {
+    order: -1;
+    width: calc(100% - var(--service-title-size) - 0.75rem);
     max-height: 14rem;
+    margin-inline-start: calc(var(--service-title-size) + 0.75rem);
+  }
+
+  .service-card__link {
+    order: 1;
+    justify-self: end;
   }
 }
 
 /* About page — desktop only */
 @media (min-width: 48.0625rem) {
-  /* less space between the quote and the services */
-  .about-hero {
-    padding-block-end: clamp(1.5rem, 3vw, 2.5rem);
-  }
-
   .about-services {
     padding-block-start: clamp(1rem, 2vw, 1.5rem);
   }
 
-  /* photo stretches from the top of THE ARTIST to the end of the text */
-  .about-portrait {
-    align-self: stretch;
-    aspect-ratio: auto;
-    contain: size; /* the photo follows the text height instead of pushing it */
-    min-height: 18rem;
-  }
-
-  /* open card: See more | photo | paragraph */
+  /* open card: photo (lined up with the title word) | paragraph,
+     See more under the paragraph, on its right edge */
   .service-card__details-inner {
-    grid-template-columns: minmax(7rem, 0.5fr) minmax(7rem, 0.45fr) minmax(0, 1.5fr);
+    grid-template-columns: minmax(7rem, 0.45fr) minmax(0, 1.5fr);
+    row-gap: 0.25rem;
   }
 
   .service-card__details-inner img {
-    order: 1;
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    align-self: start;
+    width: calc(100% - var(--service-title-size) - 0.75rem);
+    margin-inline-start: calc(var(--service-title-size) + 0.75rem);
   }
 
   .service-desc {
-    order: 2;
-  }
-
-  /* See more starts where the word after // starts */
-  .service-card__slashes {
-    display: inline-block;
-    width: 1em;
+    grid-column: 2;
+    grid-row: 1;
   }
 
   .service-card__link {
-    margin-inline-start: calc(var(--service-title-size) + 0.75rem);
+    grid-column: 2;
+    grid-row: 2;
+    justify-self: end;
   }
 }
 
@@ -1453,13 +1432,24 @@ html.snap { scroll-snap-type: y proximity; }
 }
 
 /* narrow phones: tighter navbar so it fits on one line */
-@media (max-width: 24rem) {
+@media (max-width: 28rem) {
   .site-nav {
     --nav-fs: 0.875rem;
   }
 
   .site-nav .nav-links {
     gap: 0.75rem;
+  }
+
+  .site-nav__home-icon {
+    height: 1.5rem;
+  }
+}
+
+/* 360px phones: a bit less space between links so Instagram still fits */
+@media (max-width: 23rem) {
+  .site-nav .nav-links {
+    gap: 0.5rem;
   }
 }
 
@@ -1520,13 +1510,14 @@ html.snap { scroll-snap-type: y proximity; }
     text-align: center;
   }
 
-  .site-footer--home .footer-contact__lead {
+  .site-footer--home .footer-contact__details {
+    align-items: center;
     order: 2;
   }
 
-  .site-footer--home .footer-contact a {
-    order: 2;
-    margin-block-end: 1.5rem;
+  .site-footer--home .footer-contact__enquiries {
+    min-height: 2.75rem; /* 44px touch target on mobile */
+    margin-block-end: 0.875rem; /* min-height adds ~0.625rem below; keeps the 1.5rem gap */
   }
 
   .site-footer--home .footer-copyright {
@@ -1542,6 +1533,7 @@ html.snap { scroll-snap-type: y proximity; }
   .site-nav a,
   .card__label,
   .footer-contact a,
+  .site-footer--home .footer-contact__enquiries,
   .footer-substack__form button {
     transition: none;
   }
