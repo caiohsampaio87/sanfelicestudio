@@ -61,7 +61,7 @@ Usamos as classes de posição do Bootstrap direto no HTML, então dá pra ver i
 | Classe | CSS que aplica | Elementos |
 |---|---|---|
 | `position-relative` | `position: relative` | `.hero` (topo das páginas), `.hero__content`, `.about-hero`, `.contact-page-main`, `.gallery-card` |
-| `position-absolute` | `position: absolute` | os "+" dos cantos (`.hero__plus`, `.about-hero__plus`), o link "scroll down" (`.hero-scroll`), o vídeo e o efeito do Home (`.hero__video`, `.hero__fx`), a etiqueta da foto (`.gallery-card__label`) |
+| `position-absolute` | `position: absolute` | os "+" dos cantos (`.hero__plus`, `.about-hero__plus`), o link "scroll down" (`.hero-scroll`), o vídeo do topo (`.hero__video`), a etiqueta da foto (`.gallery-card__label`) |
 
 **Regra:** um elemento `position-absolute` se posiciona em relação ao pai mais próximo que tenha `position-relative`. Por isso os "+" ficam presos nos cantos do `.hero`.
 

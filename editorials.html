@@ -23,13 +23,12 @@
     <!-- Hero -->
     <section class="hero position-relative" id="top" aria-labelledby="hero-title">
       <!-- background video (decorative): WebM first, MP4 for browsers without WebM.
-           No autoplay here: hero-fx.js starts it only when the user allows motion; the poster shows otherwise -->
+           No autoplay here: the VHS effect script below starts it only when the user allows motion;
+           the poster shows otherwise -->
       <video class="hero__video position-absolute" muted loop playsinline preload="none" poster="assets/images/home-hero-poster.jpg" aria-hidden="true">
         <source src="assets/video/homebackground.webm" type="video/webm">
         <source src="assets/video/homebackground.mp4" type="video/mp4">
       </video>
-      <!-- analog noise + glitch effect drawn over the video (assets/js/hero-fx.js) -->
-      <canvas class="hero__fx position-absolute" aria-hidden="true"></canvas>
       <div class="hero__content position-relative">
         <h1 class="hero__title" id="hero-title">Sanfelice Studio</h1>
         <p class="hero__location">London</p>
@@ -128,7 +127,15 @@
 <!-- Bootstrap 5.3.9 JS bundle: runs the Modal component used by the photo lightbox -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.9/dist/js/bootstrap.bundle.min.js" integrity="sha384-WyOxWvTyr1QaMPfiPJSv76iReVthorl5uWlFtZPyK0IEB0hGzo9y5Bp9mYanr8Bu" crossorigin="anonymous"></script>
 <script src="assets/js/components.js"></script>
-<!-- Hero: analog noise + glitch effect on the background video -->
-<script src="assets/js/hero-fx.js"></script>
+<!-- Hero: VHS + glitch + analog noise effect (WebGL) on the background video -->
+<script src="assets/js/vhs-glitch-bg.js"></script>
+<script>
+  // Only when the user allows motion; with "reduce motion" on, the still poster stays
+  if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const heroVideo = document.querySelector(".hero__video");
+    heroVideo.preload = "auto";
+    VhsGlitch(heroVideo);
+  }
+</script>
 </body>
 </html>
