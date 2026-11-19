@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#050505">
     <meta name="description" content="Sanfelice Studio — portrait and editorial photography by Caio Sanfelice, based in London.">
     <link rel="icon" type="image/svg+xml" href="assets/images/fav-icon.svg">
     <title>Sanfelice Studio</title>
@@ -10,13 +11,12 @@
 
     <!-- Bootstrap 5.3.9 CSS (grid, utility classes, modal). Loaded before style.css so our own CSS can override it -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.9/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-yEPZ7jP9S0QKiUQ0m3jjsO4ProIW7wvR9gXkI7JOGa2XVsw53Yke2bsdkBbjmmiX" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 
     <!-- Font -->
-    <style>
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400..800;1,400..800&display=swap');
-    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400..800;1,400..800&display=swap">
 
    <!-- CSS (after the bootstrap, library, fonts) -->
     <link rel="stylesheet" href="assets/css/style.css">
@@ -36,7 +36,7 @@
     <!-- background video (decorative): WebM first, MP4 for browsers without WebM.
          No autoplay here: the VHS effect script below starts it only when the user allows motion;
          the poster shows otherwise -->
-    <video id="bg" class="hero__video position-absolute" muted loop playsinline preload="none" poster="assets/images/home-hero-poster.jpg" aria-hidden="true">
+    <video id="bg" class="hero__video position-absolute" muted loop playsinline preload="none" poster="assets/images/home-hero-poster.webp" aria-hidden="true">
       <source src="assets/video/homebackground.webm" type="video/webm">
       <source src="assets/video/homebackground.mp4" type="video/mp4">
     </video>
@@ -77,55 +77,55 @@
     <div class="gallery-grid row row-cols-2 row-cols-md-3 g-3 g-lg-4">
       <div class="col">
         <figure class="gallery-card position-relative">
-          <img class="d-block w-100 h-100 object-fit-cover" src="assets/images/portrait-blue-green-jacket.jpg" alt="Portrait of a man with short hair looking over his shoulder, wearing a textured green jacket and a silver chain, against a cobalt blue backdrop" loading="lazy">
+          <img class="d-block w-100 h-100 object-fit-cover" src="assets/images/portrait-blue-green-jacket.webp" alt="Portrait of a man with short hair looking over his shoulder, wearing a textured green jacket and a silver chain, against a cobalt blue backdrop" loading="lazy">
           <figcaption class="gallery-card__label position-absolute">Portraits</figcaption>
         </figure>
       </div>
       <div class="col">
         <figure class="gallery-card position-relative">
-          <img class="d-block w-100 h-100 object-fit-cover" src="assets/images/portrait-frida-inspired.jpg" alt="Frida Kahlo-inspired portrait of a woman with red flowers in her braided hair, silver earrings and necklace, an embroidered blouse and a turquoise shawl, against a yellow backdrop" loading="lazy">
+          <img class="d-block w-100 h-100 object-fit-cover" src="assets/images/portrait-frida-inspired.webp" alt="Frida Kahlo-inspired portrait of a woman with red flowers in her braided hair, silver earrings and necklace, an embroidered blouse and a turquoise shawl, against a yellow backdrop" loading="lazy">
           <figcaption class="gallery-card__label position-absolute">Portraits</figcaption>
         </figure>
       </div>
       <div class="col">
         <figure class="gallery-card position-relative">
-          <img class="d-block w-100 h-100 object-fit-cover" src="assets/images/portrait-red-turtleneck.jpg" alt="Portrait of a young man with short auburn hair and flushed cheeks, wearing a chunky red turtleneck, against a weathered teal backdrop" loading="lazy">
+          <img class="d-block w-100 h-100 object-fit-cover" src="assets/images/portrait-red-turtleneck.webp" alt="Portrait of a young man with short auburn hair and flushed cheeks, wearing a chunky red turtleneck, against a weathered teal backdrop" loading="lazy">
           <figcaption class="gallery-card__label position-absolute">Portraits</figcaption>
         </figure>
       </div>
       <div class="col">
         <figure class="gallery-card position-relative">
-          <img class="d-block w-100 h-100 object-fit-cover" src="assets/images/portrait-blond-earcuff.jpg" alt="Close-up portrait of a young man with tousled blond hair and freckles looking back over his bare shoulder, wearing a silver ear cuff, against a soft beige backdrop" loading="lazy">
+          <img class="d-block w-100 h-100 object-fit-cover" src="assets/images/portrait-blond-earcuff.webp" alt="Close-up portrait of a young man with tousled blond hair and freckles looking back over his bare shoulder, wearing a silver ear cuff, against a soft beige backdrop" loading="lazy">
           <figcaption class="gallery-card__label position-absolute">Portraits</figcaption>
         </figure>
       </div>
       <div class="col">
         <figure class="gallery-card position-relative">
-          <img class="d-block w-100 h-100 object-fit-cover" src="assets/images/portrait-horns-red.jpg" alt="Portrait of a man in a black hood with tall curved horns and a red jacket, hugging his arm and looking back over his shoulder, against a weathered grey backdrop" loading="lazy">
+          <img class="d-block w-100 h-100 object-fit-cover" src="assets/images/portrait-horns-red.webp" alt="Portrait of a man in a black hood with tall curved horns and a red jacket, hugging his arm and looking back over his shoulder, against a weathered grey backdrop" loading="lazy">
           <figcaption class="gallery-card__label position-absolute">Portraits</figcaption>
         </figure>
       </div>
       <div class="col">
         <figure class="gallery-card position-relative">
-          <img class="d-block w-100 h-100 object-fit-cover" src="assets/images/portrait-red-hair-blue.jpg" alt="Portrait of a freckled young man with bright red hair looking back over his bare shoulder, against a turquoise blue backdrop" loading="lazy">
+          <img class="d-block w-100 h-100 object-fit-cover" src="assets/images/portrait-red-hair-blue.webp" alt="Portrait of a freckled young man with bright red hair looking back over his bare shoulder, against a turquoise blue backdrop" loading="lazy">
           <figcaption class="gallery-card__label position-absolute">Portraits</figcaption>
         </figure>
       </div>
       <div class="col">
         <figure class="gallery-card position-relative">
-          <img class="d-block w-100 h-100 object-fit-cover" src="assets/images/portrait-gothic-bonnet.jpg" alt="Portrait of a woman with long wavy brown hair in a black velvet costume with a sculptural bonnet, sheer sleeves, silver ornaments and insect-like wings, against a mottled cream backdrop" loading="lazy">
+          <img class="d-block w-100 h-100 object-fit-cover" src="assets/images/portrait-gothic-bonnet.webp" alt="Portrait of a woman with long wavy brown hair in a black velvet costume with a sculptural bonnet, sheer sleeves, silver ornaments and insect-like wings, against a mottled cream backdrop" loading="lazy">
           <figcaption class="gallery-card__label position-absolute">Portraits</figcaption>
         </figure>
       </div>
       <div class="col">
         <figure class="gallery-card position-relative">
-          <img class="d-block w-100 h-100 object-fit-cover" src="assets/images/portrait-dark-hair-sage.jpg" alt="Close-up portrait of a young man with tousled dark hair and pale blue eyes looking over his bare shoulder, a hand resting on it, against a sage green backdrop" loading="lazy">
+          <img class="d-block w-100 h-100 object-fit-cover" src="assets/images/portrait-dark-hair-sage.webp" alt="Close-up portrait of a young man with tousled dark hair and pale blue eyes looking over his bare shoulder, a hand resting on it, against a sage green backdrop" loading="lazy">
           <figcaption class="gallery-card__label position-absolute">Portraits</figcaption>
         </figure>
       </div>
       <div class="col">
         <figure class="gallery-card position-relative">
-          <img class="d-block w-100 h-100 object-fit-cover" src="assets/images/portrait-striped-beret.jpg" alt="Black-and-white portrait of a tattooed man in a striped T-shirt and braces, touching the brim of a dark beret" loading="lazy">
+          <img class="d-block w-100 h-100 object-fit-cover" src="assets/images/portrait-striped-beret.webp" alt="Black-and-white portrait of a tattooed man in a striped T-shirt and braces, touching the brim of a dark beret" loading="lazy">
           <figcaption class="gallery-card__label position-absolute">Portraits</figcaption>
         </figure>
       </div>

@@ -53,6 +53,23 @@
 }
 
 /* Base */
+/* dark site: native scrollbars, form controls and autofill follow the dark theme */
+html {
+  color-scheme: dark;
+}
+
+/* Inline SVG icons (paths from Font Awesome Free 6.5.2, CC BY 4.0):
+   sized like the old icon font, 1em tall and the colour of the text */
+.icon {
+  display: inline-block;
+  width: auto;
+  height: 1em;
+  flex-shrink: 0;
+  overflow: visible;
+  fill: currentColor;
+  vertical-align: -0.125em;
+}
+
 body {
   margin: 0;
   background: var(--bg);
@@ -97,6 +114,14 @@ html {
 
 .site-nav .nav-links {
   gap: 5rem;
+}
+
+/* tablets: tighter links. Must stay before the smaller phone breakpoints below,
+   otherwise (same specificity, later in the file) it would override them */
+@media (max-width: 56rem) {
+  .site-nav .nav-links {
+    gap: clamp(0.85rem, 4vw, 2.5rem);
+  }
 }
 
 .site-nav a {
@@ -163,7 +188,7 @@ html {
   opacity: 1;
 }
 
-.site-nav .fa-instagram {
+.site-nav__instagram-icon {
   font-size: 1.35rem;
 }
 
@@ -175,7 +200,7 @@ html {
   place-items: center;
   isolation: isolate; /* keeps the video behind the overlay and the text */
   padding: 6rem 1rem;
-  background: #000 url("../images/home-hero-poster.jpg") center / cover no-repeat;
+  background: #000 url("../images/home-hero-poster.webp") center / cover no-repeat;
   text-align: center;
 }
 
@@ -545,12 +570,14 @@ html.snap { scroll-snap-type: y proximity; }
    (site-container > row / col-* / order-* / align-items-center in footer.html) */
 
 .footer-substack {
+  --substack-logo: 1.3rem; /* icon size; the legal line is indented by it */
+  --substack-gap: 0.525rem;
   display: flex;
   width: 84%;
   min-width: min(100%, 21.3rem);
   flex-direction: column;
   align-items: center;
-  gap: 0.525rem;
+  gap: var(--substack-gap);
   color: #fff;
 }
 
@@ -558,13 +585,13 @@ html.snap { scroll-snap-type: y proximity; }
   display: flex;
   min-width: 0;
   align-items: center;
-  gap: 0.525rem;
+  gap: var(--substack-gap);
   width: 100%;
 }
 
 .footer-substack__logo {
-  flex: 0 0 1.3rem;
-  height: 1.3rem;
+  flex: 0 0 var(--substack-logo);
+  height: var(--substack-logo);
 }
 
 .footer-substack__logo path {
@@ -671,7 +698,7 @@ html.snap { scroll-snap-type: y proximity; }
   letter-spacing: 0.02em;
   line-height: 1.4;
   text-align: left;
-  padding-inline-start: calc(1.05rem + 0.525rem); /* lines up with the email input (logo + gap) */
+  padding-inline-start: calc(var(--substack-logo) + var(--substack-gap)); /* lines up with the email input (logo + gap) */
   box-sizing: border-box;
 }
 
@@ -886,7 +913,7 @@ html.snap { scroll-snap-type: y proximity; }
   transition: color 0.2s ease;
 }
 
-.contact-details__link i {
+.contact-details__link .icon {
   font-size: 1.1rem;
 }
 
@@ -1544,12 +1571,6 @@ html.snap { scroll-snap-type: y proximity; }
   }
 }
 
-@media (max-width: 56rem) {
-  .site-nav .nav-links {
-    gap: clamp(0.85rem, 4vw, 2.5rem);
-  }
-}
-
 /* Footer below Bootstrap's lg (992px): one centred column.
    Column widths and the order of logo / contact / newsletter come from col-12 and order-* in footer.html */
 @media (max-width: 991.98px) {
@@ -1558,9 +1579,8 @@ html.snap { scroll-snap-type: y proximity; }
     margin-inline: auto;
   }
 
-  .footer-substack__logo {
-    flex-basis: 1.05rem;
-    height: 1.05rem;
+  .footer-substack {
+    --substack-logo: 1.05rem;
   }
 
   .footer-brand {
