@@ -1,4 +1,4 @@
-// Hero background video (Home and gallery pages): starts the video with the VHS effect
+// Hero background video (Home and gallery pages): starts the video with the VHS effect (no glitch)
 // (vhs-glitch-bg.js) and wires the pause / play button.
 // With "reduce motion" on, nothing plays: the still poster stays and the button is not shown.
 
@@ -10,7 +10,8 @@
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
   video.preload = "auto";
-  const fx = window.VhsGlitch ? window.VhsGlitch(video) : null; // also starts the video
+  // uGlitch: 0 = calm video, no glitch blocks; the VHS noise, lines and tracking stay
+  const fx = window.VhsGlitch ? window.VhsGlitch(video, { uGlitch: 0 }) : null; // also starts the video
   if (!fx) video.play().catch(() => {}); // no WebGL: plain video
 
   if (!button) return;
