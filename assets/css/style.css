@@ -252,6 +252,7 @@ html {
    to the left. padding-inline-start with the same value puts it back on the optical centre. */
 .hero__title {
   --track: clamp(0.08em, 1.2vw, 0.2em);
+  will-change: transform, opacity; /* hero-title.js moves it while scrolling: keep it on its own layer */
   margin: 0;
   padding-inline-start: var(--track);
   font-size: var(--fs-display);
