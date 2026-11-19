@@ -34,18 +34,17 @@
   <!-- Hero -->
   <section class="hero position-relative" id="top" aria-labelledby="hero-title">
     <!-- background video (decorative): WebM first, MP4 for browsers without WebM.
-         No autoplay here: hero-fx.js starts it only when the user allows motion; the poster shows otherwise -->
-    <video class="hero__video position-absolute" muted loop playsinline preload="none" poster="assets/images/home-hero-poster.jpg" aria-hidden="true">
+         No autoplay here: the VHS effect script below starts it only when the user allows motion;
+         the poster shows otherwise -->
+    <video id="bg" class="hero__video position-absolute" muted loop playsinline preload="none" poster="assets/images/home-hero-poster.jpg" aria-hidden="true">
       <source src="assets/video/homebackground.webm" type="video/webm">
       <source src="assets/video/homebackground.mp4" type="video/mp4">
     </video>
-    <!-- analog noise + glitch effect drawn over the video (assets/js/hero-fx.js) -->
-    <canvas class="hero__fx position-absolute" aria-hidden="true"></canvas>
     <div class="hero__content position-relative">
       <h1 class="hero__title" id="hero-title">Sanfelice Studio</h1>
       <p class="hero__location">London</p>
     </div>
-    <a class="hero-scroll position-absolute" href="#work">Scroll down for portfolio</a>
+    <a class="hero-scroll position-absolute" href="#work" aria-label="Scroll down for portfolio"><span class="hero-scroll__text" aria-hidden="true"><span class="hero-scroll__flap" style="--i: 0">S</span><span class="hero-scroll__flap" style="--i: 1">c</span><span class="hero-scroll__flap" style="--i: 2">r</span><span class="hero-scroll__flap" style="--i: 3">o</span><span class="hero-scroll__flap" style="--i: 4">l</span><span class="hero-scroll__flap" style="--i: 5">l</span> <span class="hero-scroll__flap" style="--i: 6">d</span><span class="hero-scroll__flap" style="--i: 7">o</span><span class="hero-scroll__flap" style="--i: 8">w</span><span class="hero-scroll__flap" style="--i: 9">n</span> <span class="hero-scroll__flap" style="--i: 10">f</span><span class="hero-scroll__flap" style="--i: 11">o</span><span class="hero-scroll__flap" style="--i: 12">r</span> <span class="hero-scroll__flap" style="--i: 13">p</span><span class="hero-scroll__flap" style="--i: 14">o</span><span class="hero-scroll__flap" style="--i: 15">r</span><span class="hero-scroll__flap" style="--i: 16">t</span><span class="hero-scroll__flap" style="--i: 17">f</span><span class="hero-scroll__flap" style="--i: 18">o</span><span class="hero-scroll__flap" style="--i: 19">l</span><span class="hero-scroll__flap" style="--i: 20">i</span><span class="hero-scroll__flap" style="--i: 21">o</span></span></a>
     <span class="hero__plus hero__plus--top-left position-absolute" aria-hidden="true">+</span>
     <span class="hero__plus hero__plus--top-right position-absolute" aria-hidden="true">+</span>
     <span class="hero__plus hero__plus--left position-absolute" aria-hidden="true">+</span>
@@ -142,7 +141,15 @@
 <!-- Bootstrap 5.3.9 JS bundle: runs the Modal component used by the photo lightbox -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.9/dist/js/bootstrap.bundle.min.js" integrity="sha384-WyOxWvTyr1QaMPfiPJSv76iReVthorl5uWlFtZPyK0IEB0hGzo9y5Bp9mYanr8Bu" crossorigin="anonymous"></script>
 <script src="assets/js/components.js"></script>
-<!-- Home hero: analog noise + glitch effect on the background video -->
-<script src="assets/js/hero-fx.js"></script>
+<!-- Home hero: VHS + glitch + analog noise effect (WebGL) on the background video -->
+<script src="assets/js/vhs-glitch-bg.js"></script>
+<script>
+  // Only when the user allows motion; with "reduce motion" on, the still poster stays
+  if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const heroVideo = document.querySelector("#bg");
+    heroVideo.preload = "auto";
+    VhsGlitch(heroVideo);
+  }
+</script>
 </body>
 </html>

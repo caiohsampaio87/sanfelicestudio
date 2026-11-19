@@ -260,6 +260,48 @@ html {
   opacity: 0.72;
 }
 
+/* "Scroll down for portfolio" as a split-flap board (old airport / train station signs):
+   each letter flips once on its own, left to right like the board updating,
+   lands with a small mechanical "clack", then the line rests until the next round.
+   Every letter is a span with --i = its position; the delay is --i x 45ms. */
+.hero-scroll__text {
+  display: inline-block;
+  perspective: 25rem; /* depth for the letters' 3D flip */
+}
+
+.hero-scroll__flap {
+  display: inline-block;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-scroll__flap {
+    animation: hero-scroll-flap 6s infinite;
+    animation-delay: calc(1.5s + var(--i) * 45ms);
+  }
+}
+
+@keyframes hero-scroll-flap {
+  0% {
+    transform: rotateX(0deg);
+    animation-timing-function: cubic-bezier(0.5, 0, 0.75, 0); /* speeds up like a falling flap */
+  }
+
+  6% {
+    transform: rotateX(-360deg);
+    animation-timing-function: ease-out;
+  }
+
+  7% {
+    transform: rotateX(-372deg); /* small overshoot: the clack */
+    animation-timing-function: ease-in-out;
+  }
+
+  8.5%,
+  100% {
+    transform: rotateX(-360deg); /* one full turn = back to normal, rests for the rest of the cycle */
+  }
+}
+
 .hero__plus {
   /* position: absolute comes from Bootstrap's position-absolute class in the HTML */
   inset-block-end: 1.25rem;
@@ -790,15 +832,14 @@ html.snap { scroll-snap-type: y proximity; }
   background: #0a0a0a;
 }
 
-.contact-page-main::before {
-  position: absolute;
+/* Contact background: noise texture <img> (position-absolute from Bootstrap in the HTML).
+   vhs-glitch-bg.js puts a canvas with the same class in its place, so the effect covers the page too */
+.contact-page-bg {
   z-index: -1;
   inset: 0;
-  content: "";
-  background-image: url("../images/contact-background.jpg"); /* noise texture, covers the page on every screen */
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   pointer-events: none;
 }
 
@@ -810,7 +851,7 @@ html.snap { scroll-snap-type: y proximity; }
   padding: clamp(1.5rem, 4vw, 3.5rem);
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 1.5rem;
-  background: rgba(8, 8, 8, 0.85); /* slight transparency over the background photo */
+  background: rgba(8, 8, 8, 0.55); /* slight transparency over the background photo */
   --contact-title-size: clamp(1.75rem, 3.5vw, 2.75rem);
 }
 
