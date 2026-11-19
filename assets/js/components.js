@@ -64,7 +64,7 @@ const LIGHTBOX_HTML = `
   </div>`;
 
 function initLightbox() {
-  const cards = document.querySelectorAll(".grid .card");
+  const cards = document.querySelectorAll(".gallery-grid .gallery-card");
   if (!cards.length || !window.bootstrap) return;
 
   document.body.insertAdjacentHTML("beforeend", LIGHTBOX_HTML);
@@ -103,10 +103,33 @@ function initLightbox() {
 
 initLightbox();
 
+// Navbar: transparent at the top of the page, dark background once the page scrolls
+// (the fixed position itself is Bootstrap's fixed-top, see components/navbar.html)
+function initStickyHeader() {
+  const header = document.querySelector(".header");
+  if (!header) return;
+
+  let ticking = false;
+  function update() {
+    header.classList.toggle("is-scrolled", window.scrollY > 8);
+    ticking = false;
+  }
+
+  window.addEventListener("scroll", () => {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(update); // at most once per frame
+    }
+  }, { passive: true });
+
+  update(); // page reloaded halfway down: start with the dark navbar
+}
+
 Promise.all([
   loadComponent("site-navbar", "components/navbar.html"),
   loadComponent("site-footer", "components/footer.html"),
 ]).then(() => {
   markCurrentPage();
+  initStickyHeader();
   initNewsletter();
 });

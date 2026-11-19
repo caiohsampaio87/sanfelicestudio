@@ -1,6 +1,8 @@
 <!-- ===== Header / main navigation (shared component, loaded by assets/js/components.js) ===== -->
-<header class="header">
-  <nav class="site-nav container" aria-label="Main navigation">
+<!-- fixed-top (Bootstrap): the navbar stays at the top of the screen while scrolling.
+     components.js adds .is-scrolled once the page leaves the top, which gives it a dark background -->
+<header class="header fixed-top">
+  <nav class="site-nav site-container" aria-label="Main navigation">
     <a class="site-nav__home-link" href="index.html#top" aria-label="Home">
       <img class="site-nav__home-icon" src="assets/images/logo-sanfelicestudio.svg" alt="" aria-hidden="true">
     </a>

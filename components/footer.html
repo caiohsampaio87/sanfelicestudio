@@ -1,55 +1,62 @@
 <!-- ===== Footer (shared component, loaded by assets/js/components.js) ===== -->
 <footer class="site-footer site-footer--home">
-  <div class="container site-footer__inner">
-    <!-- Footer: newsletter (Substack) -->
-    <section class="footer-substack" aria-label="Substack newsletter signup">
-      <div class="footer-substack__layout">
-        <svg class="footer-substack__logo" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path d="M22.539 8.242H1.46V5.406h21.08v2.836z"/>
-          <path d="M1.46 10.812V24L12 18.11 22.54 24V10.812H1.46z"/>
-          <path d="M22.54 0H1.46v2.836h21.08V0z"/>
-        </svg>
-        <div class="footer-substack__content">
-          <form class="footer-substack__form"
-                action="https://caiosanfelice.substack.com/api/v1/free?nojs=true"
-                method="POST"
-                target="footer-substack-response">
-            <label class="visually-hidden" for="footer-substack-email">Email address</label>
-            <input id="footer-substack-email"
-                   type="email"
-                   name="email"
-                   autocomplete="email"
-                   spellcheck="false"
-                   placeholder="Type your email..."
-                   required>
-            <button type="submit">Subscribe</button>
-          </form>
-          <p class="footer-substack__message" role="status" aria-live="polite" hidden></p>
+  <!-- Bootstrap row: 3 columns from lg (992px): newsletter | logo | contact.
+       Below lg each block is full width (col-12) and order-* puts the logo first, then contact, then the newsletter -->
+  <div class="site-container">
+    <div class="site-footer__inner row align-items-center gx-lg-5">
+      <!-- Footer: newsletter (Substack) -->
+      <!-- Bootstrap column (the newsletter block inside keeps its own 84% width) -->
+      <div class="col-12 col-lg-5 order-3 order-lg-1">
+        <section class="footer-substack" aria-label="Substack newsletter signup">
+          <div class="footer-substack__layout">
+            <svg class="footer-substack__logo" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M22.539 8.242H1.46V5.406h21.08v2.836z"/>
+              <path d="M1.46 10.812V24L12 18.11 22.54 24V10.812H1.46z"/>
+              <path d="M22.54 0H1.46v2.836h21.08V0z"/>
+            </svg>
+            <div class="footer-substack__content">
+              <form class="footer-substack__form"
+                    action="https://caiosanfelice.substack.com/api/v1/free?nojs=true"
+                    method="POST"
+                    target="footer-substack-response">
+                <label class="visually-hidden" for="footer-substack-email">Email address</label>
+                <input id="footer-substack-email"
+                       type="email"
+                       name="email"
+                       autocomplete="email"
+                       spellcheck="false"
+                       placeholder="Type your email..."
+                       required>
+                <button type="submit">Subscribe</button>
+              </form>
+              <p class="footer-substack__message" role="status" aria-live="polite" hidden></p>
+            </div>
+          </div>
+          <p class="footer-substack__legal">
+            By subscribing you agree to Substack's
+            <a href="https://substack.com/tos">Terms</a>,
+            <a href="https://substack.com/privacy">Privacy</a> &amp;
+            <a href="https://substack.com/information-collection-notice">Collection notice</a>.
+          </p>
+          <iframe class="footer-substack__frame"
+                  name="footer-substack-response"
+                  title="Substack signup response"></iframe>
+        </section>
+      </div>
+
+      <!-- Footer: logo -->
+      <div class="footer-brand col-12 col-lg-2 order-1 order-lg-2">
+        <img src="assets/images/logo-sanfelicestudio.svg" alt="Sanfelice Studio">
+      </div>
+
+      <!-- Footer: enquiries + copyright -->
+      <div class="footer-contact col-12 col-lg-5 order-2 order-lg-3">
+        <div class="footer-contact__details">
+          <p class="footer-contact__lead">Commissions &amp; collaborations</p>
+          <a class="footer-contact__enquiries" href="contact.html">Enquiries &gt;&gt;</a>
         </div>
+        <p class="footer-copyright">© 2026, Caio Sanfelice, all images are subjected to copyright</p>
       </div>
-      <p class="footer-substack__legal">
-        By subscribing you agree to Substack's
-        <a href="https://substack.com/tos">Terms</a>,
-        <a href="https://substack.com/privacy">Privacy</a> &amp;
-        <a href="https://substack.com/information-collection-notice">Collection notice</a>.
-      </p>
-      <iframe class="footer-substack__frame"
-              name="footer-substack-response"
-              title="Substack signup response"></iframe>
-    </section>
-
-    <!-- Footer: logo -->
-    <div class="footer-brand">
-      <img src="assets/images/logo-sanfelicestudio.svg" alt="Sanfelice Studio">
-    </div>
-
-    <!-- Footer: enquiries + copyright -->
-    <div class="footer-contact">
-      <div class="footer-contact__details">
-        <p class="footer-contact__lead">Commissions &amp; collaborations</p>
-        <a class="footer-contact__enquiries" href="contact.html">Enquiries &gt;&gt;</a>
-      </div>
-      <p class="footer-copyright">© 2026, Caio Sanfelice, all images are subjected to copyright</p>
     </div>
   </div>
 </footer>

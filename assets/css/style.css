@@ -6,11 +6,13 @@
   --cyan: #5edfff;
   --line: rgba(255, 255, 255, 0.28);
   --menu-h: clamp(4rem, 8vh, 5.5rem);
+  --logo-h: clamp(2.5rem, 4vw, 3.75rem);  /* navbar logo height (smaller on phones, see below) */
+  --header-pad-scrolled: 0.75rem;         /* navbar top/bottom padding once the page scrolls */
   /* Layout: one centred container for navbar, sections and footer */
   --container-max: 1400px;
   --gutter: clamp(20px, 5vw, 24px);                /* mobile: compact sides */
   /* Side padding for full-width sections (backgrounds stay full-bleed):
-     lines their content up with .container. % = the element's own width. */
+     lines their content up with .site-container. % = the element's own width. */
   --pad: max(var(--gutter), calc((100% - var(--container-max)) / 2 + var(--gutter)));
   /* Type scale */
   --fs-label: clamp(0.75rem, 0.9vw, 0.8125rem);   /* small caps labels */
@@ -41,8 +43,8 @@
   }
 }
 
-/* Shared layout container */
-.container {
+/* Shared layout container (our own, not Bootstrap's .container: different max width and side padding) */
+.site-container {
   box-sizing: border-box;
   width: 100%;
   max-width: var(--container-max);
@@ -58,12 +60,28 @@ body {
   font-family: "Montserrat", Arial, sans-serif;
 }
 
-/* Header and navigation */
+/* Header and navigation
+   Position comes from Bootstrap's fixed-top (position: fixed; top: 0; z-index: 1030).
+   At the top of the page it is transparent over the hero; once the page scrolls,
+   components.js adds .is-scrolled and it gets a dark background and less padding. */
 .header {
-  position: absolute;
-  inset: 0 0 auto;
-  z-index: 10;
-  padding-block: clamp(1rem, 4vw, 2rem); /* sides come from .container */
+  padding-block: clamp(1rem, 4vw, 2rem); /* sides come from .site-container */
+  background: transparent;
+  transition: background-color 0.3s ease, padding 0.3s ease, box-shadow 0.3s ease;
+}
+
+.header.is-scrolled {
+  padding-block: var(--header-pad-scrolled);
+  background: rgba(5, 5, 5, 0.86);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+/* Links that jump inside the page (#work) and the snap points stop just below the fixed navbar.
+   Smooth scrolling itself comes from Bootstrap's Reboot (scroll-behavior: smooth, motion allowed only). */
+html {
+  scroll-padding-top: calc(max(var(--logo-h), 2.75rem) + 2 * var(--header-pad-scrolled));
 }
 
 .site-nav,
@@ -98,14 +116,14 @@ body {
 .site-nav__home-icon {
   display: block;
   width: auto;
-  height: clamp(2.5rem, 4vw, 3.75rem); /* script wordmark: sized by height so it stays legible */
+  height: var(--logo-h); /* script wordmark: sized by height so it stays legible */
   opacity: 0.72;
   transition: opacity 0.2s ease;
 }
 
 @media (max-width: 40rem) {
-  .site-nav__home-icon {
-    height: 1.75rem; /* smaller wordmark on phones so it fits next to the links */
+  :root {
+    --logo-h: 1.75rem; /* smaller wordmark on phones so it fits next to the links */
   }
 
   .site-nav .nav-links {
@@ -151,7 +169,7 @@ body {
 
 /* Home hero */
 .hero {
-  position: relative;
+  /* position: relative comes from Bootstrap's position-relative class in the HTML */
   min-height: 100svh;
   display: grid;
   place-items: center;
@@ -163,7 +181,7 @@ body {
 
 /* background video: fills the hero like a cover image */
 .hero__video {
-  position: absolute;
+  /* position: absolute comes from Bootstrap's position-absolute class in the HTML */
   inset: 0;
   z-index: -1;
   width: 100%;
@@ -174,7 +192,7 @@ body {
 
 /* WebGL analog effect over the video; fades in once its first frame is drawn */
 .hero__fx {
-  position: absolute;
+  /* position: absolute comes from Bootstrap's position-absolute class in the HTML */
   inset: 0;
   z-index: -1;
   width: 100%;
@@ -199,7 +217,7 @@ body {
 }
 
 .hero__content {
-  position: relative;
+  /* position: relative comes from Bootstrap's position-relative class in the HTML */
   z-index: 1;
   max-width: 100%;
 }
@@ -223,7 +241,7 @@ body {
 }
 
 .hero-scroll {
-  position: absolute;
+  /* position: absolute comes from Bootstrap's position-absolute class in the HTML */
   bottom: clamp(2rem, 7vh, 4rem);
   left: 50%;
   z-index: 1;
@@ -243,7 +261,7 @@ body {
 }
 
 .hero__plus {
-  position: absolute;
+  /* position: absolute comes from Bootstrap's position-absolute class in the HTML */
   inset-block-end: 1.25rem;
   font-size: clamp(1.5rem, 2vw, 1.8rem);
   line-height: 1;
@@ -270,6 +288,9 @@ body {
 /* Shared section headings and scroll behavior */
 .asterisk { font-size: 1.05em; line-height: 0.8; }
 
+/* Scroll snap (html.snap on every page): with "proximity" the page settles on the top
+   of a section only when the scroll stops close to it, so it never traps the reader */
+.hero,
 .section {
   scroll-snap-align: start;
 }
@@ -372,14 +393,10 @@ body {
 
 html.snap { scroll-snap-type: y proximity; }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(12px, 2.4vw, 24px);
-}
-
-.card {
-  position: relative;
+/* Gallery photo card. Layout comes from Bootstrap: the grid (row / row-cols-* / g-* / col)
+   in the HTML, position-relative on the card, and d-block w-100 h-100 object-fit-cover on the photo.
+   Only the look is defined here. */
+.gallery-card {
   aspect-ratio: 3 / 4;
   margin: 0;
   border: 1px solid #858585;
@@ -387,20 +404,15 @@ html.snap { scroll-snap-type: y proximity; }
   overflow: hidden;
   transition: border-color 0.25s ease;
 }
-.card img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.card:hover { border-color: var(--white); }
+
+.gallery-card:hover { border-color: var(--white); }
 
 /* Gallery cards open the photo lightbox */
-.grid .card[role="button"] {
+.gallery-card[role="button"] {
   cursor: zoom-in;
 }
 
-.grid .card:focus-visible {
+.gallery-card:focus-visible {
   border-color: var(--white);
   outline: 2px solid var(--white);
   outline-offset: 3px;
@@ -468,9 +480,8 @@ html.snap { scroll-snap-type: y proximity; }
   text-transform: uppercase;
 }
 
-/* Category label: small, bottom corner, away from faces */
-.card__label {
-  position: absolute;
+/* Category label: small, bottom corner, away from faces (position-absolute comes from Bootstrap) */
+.gallery-card__label {
   inset-inline-start: 0.75rem;
   inset-block-end: 0.75rem;
   padding: 0.3rem 0.6rem;
@@ -485,12 +496,12 @@ html.snap { scroll-snap-type: y proximity; }
 }
 
 @media (hover: hover) {
-  .card__label {
+  .gallery-card__label {
     opacity: 0;
     transition: opacity 0.2s ease;
   }
 
-  .card:hover .card__label {
+  .gallery-card:hover .gallery-card__label {
     opacity: 1;
   }
 }
@@ -499,17 +510,13 @@ html.snap { scroll-snap-type: y proximity; }
 /* Site footer */
 .site-footer--home {
   display: block;
-  padding: clamp(2rem, 4vw, 3rem) 0; /* sides come from .container */
+  padding: clamp(2rem, 4vw, 3rem) 0; /* sides come from .site-container */
   background: #000;
   color: var(--white);
 }
 
-.site-footer__inner {
-  display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.6fr) minmax(0, 1.2fr); /* logo column narrower */
-  align-items: center;
-  gap: clamp(1.25rem, 3vw, 3rem);
-}
+/* footer columns, order and vertical centring come from Bootstrap
+   (site-container > row / col-* / order-* / align-items-center in footer.html) */
 
 .footer-substack {
   display: flex;
@@ -652,25 +659,11 @@ html.snap { scroll-snap-type: y proximity; }
   outline-offset: 2px;
 }
 
-.footer-substack__visually-hidden,
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  border: 0;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
-}
-
 .footer-substack__frame {
   display: none;
 }
 
 .footer-brand {
-  grid-column: 2;
   display: flex;
   min-width: 0;
   flex-direction: column;
@@ -686,9 +679,6 @@ html.snap { scroll-snap-type: y proximity; }
 }
 
 .site-footer--home .footer-contact {
-  grid-column: 3;
-  justify-self: end;
-  max-width: 100%;
   text-align: right;
 }
 
@@ -789,7 +779,7 @@ html.snap { scroll-snap-type: y proximity; }
 
 /* Contact page */
 .contact-page-main {
-  position: relative;
+  /* position: relative comes from Bootstrap's position-relative class in the HTML */
   isolation: isolate;
   box-sizing: border-box;
   container: contact-page / inline-size;
@@ -805,7 +795,7 @@ html.snap { scroll-snap-type: y proximity; }
   z-index: -1;
   inset: 0;
   content: "";
-  background-image: url("../images/contact-background.jpg"); /* former Home background */
+  background-image: url("../images/contact-background.jpg"); /* noise texture, covers the page on every screen */
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -813,13 +803,10 @@ html.snap { scroll-snap-type: y proximity; }
 }
 
 .contact-card {
+  /* columns, order and gutters come from Bootstrap (row / col-* / order-* / g*-*) in contact.html */
   box-sizing: border-box;
-  display: grid;
   width: min(100%, 76rem);
-  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
-  grid-template-areas: "info form";
-  align-items: stretch;
-  gap: clamp(2rem, 5vw, 4rem);
+  margin: 0; /* Bootstrap's .row adds negative side margins; the card has its own padding */
   padding: clamp(1.5rem, 4vw, 3.5rem);
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 1.5rem;
@@ -834,7 +821,6 @@ html.snap { scroll-snap-type: y proximity; }
 }
 
 .contact-information {
-  grid-area: info;
   display: flex;
   min-width: 0;
   flex-direction: column;
@@ -900,7 +886,6 @@ html.snap { scroll-snap-type: y proximity; }
 }
 
 .contact-form-panel {
-  grid-area: form;
   display: flex;
   min-width: 0;
   flex-direction: column;
@@ -941,12 +926,6 @@ html.snap { scroll-snap-type: y proximity; }
 .contact-name-group legend {
   margin-block-end: 0.4rem;
   padding: 0;
-}
-
-.contact-input-row {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(1rem, 3vw, 2rem);
 }
 
 .contact-field {
@@ -1037,15 +1016,8 @@ html.snap { scroll-snap-type: y proximity; }
   color: #dc8585;
 }
 
-@container contact-page (width <= 56rem) {
-  .contact-card {
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-areas:
-      "form"
-      "info";
-    gap: 2.25rem;
-  }
-
+/* Contact below Bootstrap's lg (992px): card is one column (see col-12 / order-* in contact.html) */
+@media (max-width: 991.98px) {
   .contact-information {
     padding-top: 0;
   }
@@ -1053,10 +1025,6 @@ html.snap { scroll-snap-type: y proximity; }
   .contact-map {
     flex: none;
     height: 272px;
-  }
-
-  .contact-input-row--split {
-    grid-template-columns: minmax(0, 1fr);
   }
 }
 
@@ -1082,7 +1050,7 @@ html.snap { scroll-snap-type: y proximity; }
    start on its dark bottom edge, the rest of the text follows on black.
    Desktop: full studio photo behind, text on the left, artist on the right. */
 .about-hero {
-  position: relative;
+  /* position: relative comes from Bootstrap's position-relative class in the HTML */
   isolation: isolate;
   background: #000;
 }
@@ -1112,7 +1080,7 @@ html.snap { scroll-snap-type: y proximity; }
 }
 
 .about-hero__plus {
-  position: absolute;
+  /* position: absolute comes from Bootstrap's position-absolute class in the HTML */
   z-index: 2;
   inset-block-start: calc(var(--menu-h) + 1rem);
   color: var(--white);
@@ -1379,13 +1347,10 @@ html.snap { scroll-snap-type: y proximity; }
 .service-card__details-inner img {
   display: block;
   width: 100%;
+  height: auto; /* lets aspect-ratio win over the height="" attribute in the HTML */
   aspect-ratio: 4 / 3;
   border-radius: 0.5rem;
   object-fit: cover;
-}
-
-.service-card__details-inner img.service-card__image--square {
-  aspect-ratio: 1;
 }
 
 /* opened by click/tap (mobile, tablets and touch screens) */
@@ -1422,11 +1387,6 @@ html.snap { scroll-snap-type: y proximity; }
 }
 
 @media (max-width: 48rem) {
-  .contact-page-main::before {
-    background-size: 100% auto;
-    background-position: center top;
-  }
-
   .service-card__details-inner {
     grid-template-columns: minmax(0, 1fr);
     gap: 0.75rem;
@@ -1439,11 +1399,6 @@ html.snap { scroll-snap-type: y proximity; }
     width: calc(100% - var(--service-title-size) - 0.75rem);
     max-height: 14rem;
     margin-inline-start: calc(var(--service-title-size) + 0.75rem);
-  }
-
-  .service-card__details-inner img.service-card__image--square {
-    width: min(calc(100% - var(--service-title-size) - 0.75rem), 14rem);
-    max-height: none;
   }
 
   .service-card__link {
@@ -1461,7 +1416,7 @@ html.snap { scroll-snap-type: y proximity; }
   /* open card: photo (lined up with the title word) | paragraph,
      See more under the paragraph, on its right edge */
   .service-card__details-inner {
-    grid-template-columns: minmax(7rem, 0.45fr) minmax(0, 1.5fr);
+    grid-template-columns: minmax(8.4rem, 0.54fr) minmax(0, 1.5fr); /* photo column 20% wider than before (0.45fr) */
     row-gap: 0.25rem;
   }
 
@@ -1506,15 +1461,10 @@ html.snap { scroll-snap-type: y proximity; }
 }
 
 /* Responsive layouts */
-@media (max-width: 40rem) {
-  .grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-/* 2-column grid: hide a lone last card so rows stay even */
-@media (min-width: 22.0625rem) and (max-width: 40rem) {
-  .grid > .card:last-child:nth-child(odd) {
+/* Gallery on phones (2 per row, below Bootstrap's md = 768px):
+   hide a lone last photo so rows stay even */
+@media (max-width: 767.98px) {
+  .gallery-grid > .col:last-child:nth-child(odd) {
     display: none;
   }
 }
@@ -1539,8 +1489,8 @@ html.snap { scroll-snap-type: y proximity; }
     gap: 0.75rem;
   }
 
-  .site-nav__home-icon {
-    height: 1.5rem;
+  :root {
+    --logo-h: 1.5rem;
   }
 }
 
@@ -1560,10 +1510,6 @@ html.snap { scroll-snap-type: y proximity; }
 }
 
 @media (max-width: 22rem) {
-  .grid {
-    grid-template-columns: 1fr;
-  }
-
   .site-nav {
     --nav-fs: 0.8125rem;
   }
@@ -1577,16 +1523,14 @@ html.snap { scroll-snap-type: y proximity; }
   .site-nav .nav-links {
     gap: clamp(0.85rem, 4vw, 2.5rem);
   }
+}
 
-  .site-footer__inner {
-    grid-template-columns: minmax(0, 1fr);
-    justify-items: center;
-    row-gap: 0;
-  }
-
+/* Footer below Bootstrap's lg (992px): one centred column.
+   Column widths and the order of logo / contact / newsletter come from col-12 and order-* in footer.html */
+@media (max-width: 991.98px) {
   .footer-substack {
-    order: 3;
     width: min(100%, 34rem);
+    margin-inline: auto;
   }
 
   .footer-substack__logo {
@@ -1595,9 +1539,6 @@ html.snap { scroll-snap-type: y proximity; }
   }
 
   .footer-brand {
-    order: 1;
-    grid-column: 1;
-    justify-self: stretch;
     margin-block-end: 1.5rem;
   }
 
@@ -1605,15 +1546,16 @@ html.snap { scroll-snap-type: y proximity; }
     max-height: 3.85rem;
   }
 
+  /* Bootstrap can't split one column, so this stays custom: the contact column "disappears"
+     (display: contents) and its two parts become separate items of the row,
+     so the copyright can go last (order 4), after the newsletter (order-3) */
   .site-footer--home .footer-contact {
     display: contents;
-    grid-column: 1;
-    justify-self: center;
-    align-items: center;
     text-align: center;
   }
 
   .site-footer--home .footer-contact__details {
+    width: 100%;
     align-items: center;
     order: 2;
   }
@@ -1624,17 +1566,44 @@ html.snap { scroll-snap-type: y proximity; }
   }
 
   .site-footer--home .footer-copyright {
+    width: 100%;
     order: 4;
     margin-block-start: 1.5rem;
   }
 }
 
+/* Gallery photos fade and rise in as they scroll into view, driven by the scroll itself
+   (CSS scroll-driven animations, no JavaScript). Browsers without support and users
+   who ask for less motion simply see the photos as normal. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .gallery-grid > .col {
+      animation: gallery-reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 70%;
+    }
+  }
+}
+
+@keyframes gallery-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(2.5rem) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .header,
   .gallery-category-link,
   .gallery-category-link::after,
   .footer-substack__logo path,
   .site-nav a,
-  .card__label,
+  .gallery-card__label,
   .footer-contact a,
   .site-footer--home .footer-contact__enquiries,
   .footer-substack__form button {
