@@ -1,0 +1,6 @@
+# macOS: Finder view settings, created automatically in every folder
+.DS_Store
+
+# Editor and personal settings
+.vscode/
+.claude/settings.local.json
