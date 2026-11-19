@@ -115,7 +115,6 @@ summary {
   padding-block: var(--header-pad-scrolled);
   background: rgba(5, 5, 5, 0.86);
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08);
-  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
 }
 
@@ -337,6 +336,55 @@ html {
   }
 }
 
+/* Pause / play button for the background video: small, bottom-right, above the corner "+"
+   (position: absolute from Bootstrap's position-absolute class in the HTML) */
+.hero-pause {
+  right: var(--pad);
+  bottom: 3.5rem;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 2.75rem; /* 44px touch target */
+  height: 2.75rem;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.35);
+  color: var(--white);
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.hero-pause[hidden] {
+  display: none;
+}
+
+.hero-pause:hover {
+  border-color: var(--white);
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.hero-pause:focus-visible {
+  outline: 2px solid var(--white);
+  outline-offset: 3px;
+}
+
+.hero-pause__icon {
+  width: 1rem;
+  height: 1rem;
+  fill: currentColor;
+}
+
+/* shows "pause" while playing, "play" once paused */
+.hero-pause__icon--play,
+.hero-pause[aria-pressed="true"] .hero-pause__icon--pause {
+  display: none;
+}
+
+.hero-pause[aria-pressed="true"] .hero-pause__icon--play {
+  display: block;
+}
+
 .hero__plus {
   /* position: absolute comes from Bootstrap's position-absolute class in the HTML */
   inset-block-end: 1.25rem;
@@ -370,6 +418,12 @@ html {
 .hero,
 .section {
   scroll-snap-align: start;
+}
+
+/* The bottom of the page is a snap point too. Without it, focusing the footer's email field
+   (or a phone keyboard opening) made the page snap back up to the last section */
+.site-footer {
+  scroll-snap-align: end;
 }
 
 .gallery-section {
@@ -407,6 +461,7 @@ html {
 .gallery-category-heading {
   margin: 0;
   font-size: var(--fs-md);
+  font-weight: 500;
   line-height: 1.2;
 }
 
@@ -883,7 +938,6 @@ html.snap { scroll-snap-type: y proximity; }
   /* position: relative comes from Bootstrap's position-relative class in the HTML */
   isolation: isolate;
   box-sizing: border-box;
-  container: contact-page / inline-size;
   display: grid;
   min-height: 100svh;
   place-items: center;
@@ -914,7 +968,8 @@ html.snap { scroll-snap-type: y proximity; }
   --contact-title-size: clamp(1.75rem, 3.5vw, 2.75rem);
 }
 
-@container contact-page (width > 36rem) and (width <= 80rem) {
+/* Contact card width between phones and wide screens */
+@media (min-width: 36.0625rem) and (max-width: 80rem) {
   .contact-card {
     width: 92%;
   }
@@ -1129,7 +1184,8 @@ html.snap { scroll-snap-type: y proximity; }
   }
 }
 
-@container contact-page (width <= 36rem) {
+/* Contact on narrow phones */
+@media (max-width: 36rem) {
   .contact-card {
     padding: 1.5rem 1.25rem;
     padding-block-start: 3rem;
@@ -1138,6 +1194,103 @@ html.snap { scroll-snap-type: y proximity; }
 
   .contact-form-title {
     font-size: clamp(1.75rem, 8vw, 2.25rem);
+  }
+}
+
+/* "How did you hear about us?" pop-up (Bootstrap Modal, Contact page): same look as the contact card */
+.heard-modal .modal-dialog {
+  max-width: min(92vw, 30rem);
+}
+
+.heard-modal__content {
+  position: relative;
+  padding: clamp(1.75rem, 5vw, 2.5rem);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 1.5rem;
+  background: rgba(8, 8, 8, 0.96);
+  color: var(--white);
+  font-family: "Montserrat", Arial, sans-serif;
+}
+
+.heard-modal__close {
+  position: absolute;
+  top: 1.1rem;
+  right: 1.1rem;
+}
+
+.heard-modal__form {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.heard-modal__title {
+  display: flex;
+  align-items: center;
+  gap: 0.2em;
+  margin: 0;
+  padding-inline-end: 2rem; /* room for the close button */
+  font-size: clamp(1.25rem, 4.5vw, 1.6rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: var(--ls-title);
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+.heard-modal__options {
+  display: grid;
+  gap: 0.85rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* Bootstrap form-check radios, restyled: white ring, white fill with a black dot when chosen */
+.heard-modal .form-check {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 2.75rem; /* 44px touch target */
+  margin: 0;
+  padding-inline-start: 0;
+}
+
+.heard-modal .form-check-input {
+  float: none;
+  width: 1.15rem;
+  height: 1.15rem;
+  margin: 0;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.heard-modal .form-check-input:checked {
+  border-color: var(--white);
+  background-color: var(--white);
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='2' fill='%23000'/%3e%3c/svg%3e");
+}
+
+.heard-modal .form-check-input:focus-visible {
+  outline: 2px solid var(--white);
+  outline-offset: 3px;
+  box-shadow: none;
+}
+
+.heard-modal .form-check-label {
+  color: rgba(255, 255, 255, 0.88);
+  cursor: pointer;
+}
+
+.heard-modal__submit {
+  justify-self: end;
+}
+
+/* Contact on phones (below Bootstrap's sm, 576px): the card is full width, so leave room
+   above and below it for the corner "+" signs; they sit outside the box, lined up with its sides */
+@media (max-width: 575.98px) {
+  .contact-page-main {
+    padding-block: calc(var(--menu-h) + 4.5rem) 4.25rem;
   }
 }
 
@@ -1668,29 +1821,26 @@ html.snap { scroll-snap-type: y proximity; }
   }
 }
 
-/* Gallery photos fade and rise in as they scroll into view, driven by the scroll itself
-   (CSS scroll-driven animations, no JavaScript). Browsers without support and users
-   who ask for less motion simply see the photos as normal. */
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .gallery-grid > .col {
-      animation: gallery-reveal linear both;
-      animation-timeline: view();
-      animation-range: entry 0% entry 70%;
-    }
-  }
+/* Gallery photos fade and rise in as they scroll into view.
+   components.js adds .js-reveal to <html> (only when motion is allowed) and .is-visible
+   to each photo column as it enters the screen. Without JavaScript the photos just show. */
+.js-reveal .gallery-grid > .col {
+  opacity: 0;
+  transform: translateY(2.5rem) scale(0.97);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.2, 0, 0, 1);
 }
 
-@keyframes gallery-reveal {
-  from {
-    opacity: 0;
-    transform: translateY(2.5rem) scale(0.97);
-  }
+.js-reveal .gallery-grid > .col:nth-child(3n + 2) {
+  transition-delay: 0.08s; /* small stagger across the row */
+}
 
-  to {
-    opacity: 1;
-    transform: none;
-  }
+.js-reveal .gallery-grid > .col:nth-child(3n) {
+  transition-delay: 0.16s;
+}
+
+.js-reveal .gallery-grid > .col.is-visible {
+  opacity: 1;
+  transform: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
