@@ -6,11 +6,13 @@
   --cyan: #5edfff;
   --line: rgba(255, 255, 255, 0.28);
   --menu-h: clamp(4rem, 8vh, 5.5rem);
+  --logo-h: clamp(2.5rem, 4vw, 3.75rem);  /* navbar logo height (smaller on phones, see below) */
+  --header-pad-scrolled: 0.75rem;         /* navbar top/bottom padding once the page scrolls */
   /* Layout: one centred container for navbar, sections and footer */
   --container-max: 1400px;
   --gutter: clamp(20px, 5vw, 24px);                /* mobile: compact sides */
   /* Side padding for full-width sections (backgrounds stay full-bleed):
-     lines their content up with .container. % = the element's own width. */
+     lines their content up with .site-container. % = the element's own width. */
   --pad: max(var(--gutter), calc((100% - var(--container-max)) / 2 + var(--gutter)));
   /* Type scale */
   --fs-label: clamp(0.75rem, 0.9vw, 0.8125rem);   /* small caps labels */
@@ -22,7 +24,7 @@
   --ls-label: 0.32em;
   --ls-title: 0.06em;
 
-  --nav-fs: clamp(1.0625rem, 1.6vw, 1.25rem); /* 17px -> 20px */
+  --nav-fs: clamp(1rem, 1.25vw, 1.125rem); /* 16px -> 18px */
   --nav-muted: #b5b5b5; /* ~10:1 on the dark hero, passes AA */
   --nav-active: #ffffff;
 }
@@ -41,8 +43,8 @@
   }
 }
 
-/* Shared layout container */
-.container {
+/* Shared layout container (our own, not Bootstrap's .container: different max width and side padding) */
+.site-container {
   box-sizing: border-box;
   width: 100%;
   max-width: var(--container-max);
@@ -51,6 +53,23 @@
 }
 
 /* Base */
+/* dark site: native scrollbars, form controls and autofill follow the dark theme */
+html {
+  color-scheme: dark;
+}
+
+/* Inline SVG icons (paths from Font Awesome Free 6.5.2, CC BY 4.0):
+   sized like the old icon font, 1em tall and the colour of the text */
+.icon {
+  display: inline-block;
+  width: auto;
+  height: 1em;
+  flex-shrink: 0;
+  overflow: visible;
+  fill: currentColor;
+  vertical-align: -0.125em;
+}
+
 body {
   margin: 0;
   background: var(--bg);
@@ -58,12 +77,52 @@ body {
   font-family: "Montserrat", Arial, sans-serif;
 }
 
-/* Header and navigation */
+/* Skip link (Bootstrap visually-hidden-focusable): appears top-left when focused with Tab */
+.skip-link:focus {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 1040; /* above the fixed navbar (1030) */
+  padding: 0.6rem 1rem;
+  border-radius: 0.4rem;
+  background: var(--white);
+  color: #000;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* Taps on links and buttons react at once (no double-tap zoom delay on phones) */
+a,
+button,
+input,
+textarea,
+summary {
+  touch-action: manipulation;
+}
+
+/* Header and navigation
+   Position comes from Bootstrap's fixed-top (position: fixed; top: 0; z-index: 1030).
+   At the top of the page it is transparent over the hero; once the page scrolls,
+   components.js adds .is-scrolled and it gets a dark background and less padding. */
 .header {
-  position: absolute;
-  inset: 0 0 auto;
-  z-index: 10;
-  padding-block: clamp(1rem, 4vw, 2rem); /* sides come from .container */
+  padding-block: clamp(1rem, 4vw, 2rem); /* sides come from .site-container */
+  padding-inline: env(safe-area-inset-left) env(safe-area-inset-right); /* clear the iPhone notch in landscape */
+  background: transparent;
+  transition: background-color 0.3s ease, padding 0.3s ease, box-shadow 0.3s ease;
+}
+
+.header.is-scrolled {
+  padding-block: var(--header-pad-scrolled);
+  background: rgba(5, 5, 5, 0.86);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+/* Links that jump inside the page (#work) and the snap points stop just below the fixed navbar.
+   Smooth scrolling itself comes from Bootstrap's Reboot (scroll-behavior: smooth, motion allowed only). */
+html {
+  scroll-padding-top: calc(max(var(--logo-h), 2.75rem) + 2 * var(--header-pad-scrolled));
 }
 
 .site-nav,
@@ -78,25 +137,25 @@ body {
 }
 
 .site-nav .nav-links {
-  gap: 5rem;
+  gap: 3rem;
+}
+
+/* tablets: tighter links. Must stay before the smaller phone breakpoints below,
+   otherwise (same specificity, later in the file) it would override them */
+@media (max-width: 56rem) {
+  .site-nav .nav-links {
+    gap: clamp(0.85rem, 4vw, 2.5rem);
+  }
 }
 
 .site-nav a {
   color: var(--nav-muted);
   font-size: var(--nav-fs);
+  font-weight: 500;
+  letter-spacing: 0.04em;
   text-decoration: none;
   white-space: nowrap;
   transition: color 0.2s ease, opacity 0.2s ease;
-}
-
-.site-nav__home-link picture {
-  display: contents;
-}
-
-@media (max-width: 40rem) {
-  .site-nav__home-icon {
-    height: 1.75rem; /* home icon on phones */
-  }
 }
 
 .site-nav__home-link {
@@ -108,9 +167,19 @@ body {
 .site-nav__home-icon {
   display: block;
   width: auto;
-  height: clamp(2.5rem, 4vw, 3.75rem); /* script wordmark: sized by height so it stays legible */
+  height: var(--logo-h); /* script wordmark: sized by height so it stays legible */
   opacity: 0.72;
   transition: opacity 0.2s ease;
+}
+
+@media (max-width: 40rem) {
+  :root {
+    --logo-h: 1.75rem; /* smaller wordmark on phones so it fits next to the links */
+  }
+
+  .site-nav .nav-links {
+    gap: 1rem;
+  }
 }
 
 .site-nav .nav-links a:hover,
@@ -119,13 +188,12 @@ body {
   color: var(--nav-active);
 }
 
-/* active page: bold, 30% larger, thin underline */
+/* active page: white + thin underline only. Same size and weight as the other links,
+   so the menu doesn't change width or jump from page to page */
 .site-nav .nav-links a[aria-current] {
-  font-size: calc(var(--nav-fs) * 1.3);
-  font-weight: 700;
   text-decoration: underline;
   text-decoration-thickness: 1px;
-  text-underline-offset: 0.45em;
+  text-underline-offset: 0.5em;
 }
 
 .site-nav a:focus-visible {
@@ -138,19 +206,31 @@ body {
   opacity: 1;
 }
 
-.site-nav .fa-instagram {
-  font-size: 1.35rem;
+.site-nav__instagram-icon {
+  font-size: 1.15em; /* follows the nav text size, a touch larger for optical balance */
 }
 
 /* Home hero */
 .hero {
-  position: relative;
+  /* position: relative comes from Bootstrap's position-relative class in the HTML */
   min-height: 100svh;
   display: grid;
   place-items: center;
+  isolation: isolate; /* keeps the video behind the overlay and the text */
   padding: 6rem 1rem;
-  background: url("../images/home-page.png") center / cover no-repeat;
+  background: #000 url("../images/home-hero-poster.webp") center / cover no-repeat;
   text-align: center;
+}
+
+/* background video: fills the hero like a cover image */
+.hero__video {
+  /* position: absolute comes from Bootstrap's position-absolute class in the HTML */
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
 }
 
 .hero::before {
@@ -164,31 +244,38 @@ body {
 }
 
 .hero__content {
-  position: relative;
+  /* position: relative comes from Bootstrap's position-relative class in the HTML */
   z-index: 1;
   max-width: 100%;
 }
 
+/* Wide letter-spacing also adds space after the last letter, which pushes centred text
+   to the left. padding-inline-start with the same value puts it back on the optical centre. */
 .hero__title {
+  --track: clamp(0.08em, 1.2vw, 0.2em);
   margin: 0;
+  padding-inline-start: var(--track);
   font-size: var(--fs-display);
   font-weight: 800;
-  letter-spacing: clamp(0.08em, 1.2vw, 0.2em);
+  letter-spacing: var(--track);
   line-height: 1.05;
   text-transform: uppercase;
   text-wrap: balance;
 }
 
+/* subtitle: small and airy so it supports the title instead of competing with it */
 .hero__location {
-  margin: 0.45rem 0 0;
-  font-size: clamp(1rem, 2.2vw, 1.5rem); /* 16px -> 24px */
-  font-weight: 600;
-  letter-spacing: 0.3em;
+  --track: 0.4em;
+  margin: clamp(0.75rem, 1.5vw, 1.25rem) 0 0;
+  padding-inline-start: var(--track);
+  font-size: clamp(1rem, 1.5vw, 1.25rem); /* 16px -> 20px */
+  font-weight: 500;
+  letter-spacing: var(--track);
   text-transform: uppercase;
 }
 
 .hero-scroll {
-  position: absolute;
+  /* position: absolute comes from Bootstrap's position-absolute class in the HTML */
   bottom: clamp(2rem, 7vh, 4rem);
   left: 50%;
   z-index: 1;
@@ -197,6 +284,7 @@ body {
   font-weight: 500;
   font-size: clamp(0.75rem, 1.4vw, 1rem); /* 12px -> 16px */
   letter-spacing: 0.25em;
+  padding-inline-start: 0.25em; /* optical centring, see .hero__title */
   text-decoration: none;
   text-transform: lowercase;
   white-space: nowrap;
@@ -207,8 +295,50 @@ body {
   opacity: 0.72;
 }
 
+/* "Scroll down for portfolio" as a split-flap board (old airport / train station signs):
+   each letter flips once on its own, left to right like the board updating,
+   lands with a small mechanical "clack", then the line rests until the next round.
+   Every letter is a span with --i = its position; the delay is --i x 45ms. */
+.hero-scroll__text {
+  display: inline-block;
+  perspective: 25rem; /* depth for the letters' 3D flip */
+}
+
+.hero-scroll__flap {
+  display: inline-block;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-scroll__flap {
+    animation: hero-scroll-flap 6s infinite;
+    animation-delay: calc(1.5s + var(--i) * 45ms);
+  }
+}
+
+@keyframes hero-scroll-flap {
+  0% {
+    transform: rotateX(0deg);
+    animation-timing-function: cubic-bezier(0.5, 0, 0.75, 0); /* speeds up like a falling flap */
+  }
+
+  6% {
+    transform: rotateX(-360deg);
+    animation-timing-function: ease-out;
+  }
+
+  7% {
+    transform: rotateX(-372deg); /* small overshoot: the clack */
+    animation-timing-function: ease-in-out;
+  }
+
+  8.5%,
+  100% {
+    transform: rotateX(-360deg); /* one full turn = back to normal, rests for the rest of the cycle */
+  }
+}
+
 .hero__plus {
-  position: absolute;
+  /* position: absolute comes from Bootstrap's position-absolute class in the HTML */
   inset-block-end: 1.25rem;
   font-size: clamp(1.5rem, 2vw, 1.8rem);
   line-height: 1;
@@ -235,6 +365,9 @@ body {
 /* Shared section headings and scroll behavior */
 .asterisk { font-size: 1.05em; line-height: 0.8; }
 
+/* Scroll snap (html.snap on every page): with "proximity" the page settles on the top
+   of a section only when the scroll stops close to it, so it never traps the reader */
+.hero,
 .section {
   scroll-snap-align: start;
 }
@@ -337,31 +470,104 @@ body {
 
 html.snap { scroll-snap-type: y proximity; }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(12px, 2.4vw, 24px);
-}
-
-.card {
-  position: relative;
+/* Gallery photo card. Layout comes from Bootstrap: the grid (row / row-cols-* / g-* / col)
+   in the HTML, position-relative on the card, and d-block w-100 h-100 object-fit-cover on the photo.
+   Only the look is defined here. */
+/* The photo is the frame: no border, almost square corners */
+.gallery-card {
   aspect-ratio: 3 / 4;
   margin: 0;
-  border: 1px solid #858585;
-  border-radius: 1.25rem;
+  border-radius: 2px;
   overflow: hidden;
-  transition: border-color 0.25s ease;
+  background: #111; /* placeholder tone while the photo loads */
 }
-.card img {
+
+/* hover: a slow, slight zoom into the photo (motion allowed only) */
+@media (prefers-reduced-motion: no-preference) {
+  .gallery-card img {
+    transition: transform 0.6s cubic-bezier(0.2, 0, 0, 1);
+  }
+
+  .gallery-card:hover img {
+    transform: scale(1.03);
+  }
+}
+
+/* Gallery photos open the lightbox: each photo is inside a real <button> */
+.gallery-card__button {
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
 }
-.card:hover { border-color: var(--white); }
+
+.gallery-card__button:focus-visible {
+  outline: 2px solid var(--white);
+  outline-offset: -4px; /* inside the card, so the rounded corners don't clip it */
+}
+
+/* Photo lightbox (Bootstrap modal): photo centred, copyright line below */
+.modal-backdrop {
+  --bs-backdrop-bg: #000;
+  --bs-backdrop-opacity: 0.95;
+}
+
+/* Bootstrap modal: scrolling inside the lightbox doesn't scroll the page behind it */
+.lightbox {
+  overscroll-behavior: contain;
+}
+
+.lightbox__dialog {
+  width: fit-content;
+  max-width: min(92vw, 60rem);
+  margin-inline: auto;
+}
+
+.lightbox__content {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+.lightbox__close {
+  align-self: flex-end;
+  margin-block-end: 0.75rem;
+  opacity: 0.8;
+}
+
+.lightbox__close:hover,
+.lightbox__close:focus-visible {
+  opacity: 1;
+}
+
+.lightbox__figure {
+  margin: 0;
+  text-align: center;
+}
+
+.lightbox__img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: calc(100svh - 11rem); /* room for the close button, the caption and the modal margins */
+  margin-inline: auto;
+  border-radius: 2px; /* photos: same near-square corners as the gallery */
+}
+
+.lightbox__caption {
+  margin-block-start: 0.75rem;
+  color: var(--nav-muted);
+  font-size: var(--fs-label);
+  letter-spacing: 0.02em;
+}
 
 /* Section title above the gallery */
 .gallery-title {
+  text-wrap: balance; /* no single word left alone on the last line */
   margin: 0 0 0.25rem;
   color: var(--nav-muted);
   font-size: clamp(0.75rem, 1.4vw, 1rem); /* 12px -> 16px */
@@ -371,9 +577,8 @@ html.snap { scroll-snap-type: y proximity; }
   text-transform: uppercase;
 }
 
-/* Category label: small, bottom corner, away from faces */
-.card__label {
-  position: absolute;
+/* Category label: small, bottom corner, away from faces (position-absolute comes from Bootstrap) */
+.gallery-card__label {
   inset-inline-start: 0.75rem;
   inset-block-end: 0.75rem;
   padding: 0.3rem 0.6rem;
@@ -388,12 +593,12 @@ html.snap { scroll-snap-type: y proximity; }
 }
 
 @media (hover: hover) {
-  .card__label {
+  .gallery-card__label {
     opacity: 0;
     transition: opacity 0.2s ease;
   }
 
-  .card:hover .card__label {
+  .gallery-card:hover .gallery-card__label {
     opacity: 1;
   }
 }
@@ -402,25 +607,23 @@ html.snap { scroll-snap-type: y proximity; }
 /* Site footer */
 .site-footer--home {
   display: block;
-  padding: clamp(2rem, 4vw, 3rem) 0; /* sides come from .container */
+  padding: clamp(2rem, 4vw, 3rem) 0; /* sides come from .site-container */
   background: #000;
   color: var(--white);
 }
 
-.site-footer__inner {
-  display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.6fr) minmax(0, 1.2fr); /* logo column narrower */
-  align-items: center;
-  gap: clamp(1.25rem, 3vw, 3rem);
-}
+/* footer columns, order and vertical centring come from Bootstrap
+   (site-container > row / col-* / order-* / align-items-center in footer.html) */
 
 .footer-substack {
+  --substack-logo: 1.3rem; /* icon size; the legal line is indented by it */
+  --substack-gap: 0.525rem;
   display: flex;
   width: 84%;
   min-width: min(100%, 21.3rem);
   flex-direction: column;
   align-items: center;
-  gap: 0.525rem;
+  gap: var(--substack-gap);
   color: #fff;
 }
 
@@ -428,14 +631,13 @@ html.snap { scroll-snap-type: y proximity; }
   display: flex;
   min-width: 0;
   align-items: center;
-  gap: 0.525rem;
+  gap: var(--substack-gap);
   width: 100%;
 }
 
 .footer-substack__logo {
-  flex: 0 0 1.05rem;
-  width: 1.05rem;
-  height: 1.05rem;
+  flex: 0 0 var(--substack-logo);
+  height: var(--substack-logo);
 }
 
 .footer-substack__logo path {
@@ -519,7 +721,8 @@ html.snap { scroll-snap-type: y proximity; }
 }
 
 .footer-substack__form button:focus-visible {
-  outline: none;
+  outline: 2px solid var(--nav-active); /* visible keyboard focus, not just the hover colour */
+  outline-offset: 2px;
 }
 
 .footer-substack__form button:disabled {
@@ -542,7 +745,7 @@ html.snap { scroll-snap-type: y proximity; }
   letter-spacing: 0.02em;
   line-height: 1.4;
   text-align: left;
-  padding-inline-start: calc(1.05rem + 0.525rem); /* lines up with the email input (logo + gap) */
+  padding-inline-start: calc(var(--substack-logo) + var(--substack-gap)); /* lines up with the email input (logo + gap) */
   box-sizing: border-box;
 }
 
@@ -556,25 +759,11 @@ html.snap { scroll-snap-type: y proximity; }
   outline-offset: 2px;
 }
 
-.footer-substack__visually-hidden,
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  border: 0;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
-}
-
 .footer-substack__frame {
   display: none;
 }
 
 .footer-brand {
-  grid-column: 2;
   display: flex;
   min-width: 0;
   flex-direction: column;
@@ -585,20 +774,24 @@ html.snap { scroll-snap-type: y proximity; }
 .footer-brand img {
   display: block;
   width: auto;
+  height: auto; /* scales from the width/height attributes, capped by max-height */
   max-width: 100%;
   max-height: clamp(3.5rem, 5.6vw, 5.25rem);
 }
 
 .site-footer--home .footer-contact {
-  grid-column: 3;
-  justify-self: end;
-  max-width: 100%;
   text-align: right;
 }
 
-.site-footer--home .footer-contact a {
+.site-footer--home .footer-contact__details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.site-footer--home .footer-contact__enquiries {
   display: inline-flex;
-  min-height: 44px;
+  min-height: 1.5rem;
   align-items: center;
   color: var(--nav-muted);
   font-size: var(--fs-small);
@@ -611,8 +804,9 @@ html.snap { scroll-snap-type: y proximity; }
   max-width: none;
   color: var(--white);
   font-size: clamp(1rem, 1.4vw, 1.25rem);
-  font-weight: 700;
+  font-weight: 400;
   letter-spacing: 0.02em;
+  line-height: 1.5;
 }
 
 .site-footer--home .footer-copyright {
@@ -622,12 +816,6 @@ html.snap { scroll-snap-type: y proximity; }
   font-size: var(--fs-label);
   line-height: 1.5;
   white-space: nowrap;
-}
-
-.site-footer--home .footer-contact p {
-  max-width: 24rem;
-  font-size: var(--fs-label);
-  line-height: 1.5;
 }
 
 .footer-socials {
@@ -692,7 +880,7 @@ html.snap { scroll-snap-type: y proximity; }
 
 /* Contact page */
 .contact-page-main {
-  position: relative;
+  /* position: relative comes from Bootstrap's position-relative class in the HTML */
   isolation: isolate;
   box-sizing: border-box;
   container: contact-page / inline-size;
@@ -703,30 +891,26 @@ html.snap { scroll-snap-type: y proximity; }
   background: #0a0a0a;
 }
 
-.contact-page-main::before {
-  position: absolute;
+/* Contact background: noise texture <img> (position-absolute from Bootstrap in the HTML).
+   vhs-glitch-bg.js puts a canvas with the same class in its place, so the effect covers the page too */
+.contact-page-bg {
   z-index: -1;
   inset: 0;
-  content: "";
-  background-image: url("../images/contact-background.png");
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   pointer-events: none;
 }
 
 .contact-card {
+  /* columns, order and gutters come from Bootstrap (row / col-* / order-* / g*-*) in contact.html */
   box-sizing: border-box;
-  display: grid;
   width: min(100%, 76rem);
-  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
-  grid-template-areas: "info form";
-  align-items: stretch;
-  gap: clamp(2rem, 5vw, 4rem);
+  margin: 0; /* Bootstrap's .row adds negative side margins; the card has its own padding */
   padding: clamp(1.5rem, 4vw, 3.5rem);
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 1.5rem;
-  background: rgba(8, 8, 8, 0.85); /* slight transparency over the background photo */
+  background: rgba(8, 8, 8, 0.55); /* slight transparency over the background photo */
   --contact-title-size: clamp(1.75rem, 3.5vw, 2.75rem);
 }
 
@@ -737,7 +921,6 @@ html.snap { scroll-snap-type: y proximity; }
 }
 
 .contact-information {
-  grid-area: info;
   display: flex;
   min-width: 0;
   flex-direction: column;
@@ -778,7 +961,7 @@ html.snap { scroll-snap-type: y proximity; }
   transition: color 0.2s ease;
 }
 
-.contact-details__link i {
+.contact-details__link .icon {
   font-size: 1.1rem;
 }
 
@@ -803,7 +986,6 @@ html.snap { scroll-snap-type: y proximity; }
 }
 
 .contact-form-panel {
-  grid-area: form;
   display: flex;
   min-width: 0;
   flex-direction: column;
@@ -811,6 +993,7 @@ html.snap { scroll-snap-type: y proximity; }
 }
 
 .contact-form-title {
+  text-wrap: balance; /* no single word left alone on the last line */
   display: flex;
   align-items: center;
   gap: 0.2em;
@@ -844,12 +1027,6 @@ html.snap { scroll-snap-type: y proximity; }
 .contact-name-group legend {
   margin-block-end: 0.4rem;
   padding: 0;
-}
-
-.contact-input-row {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(1rem, 3vw, 2rem);
 }
 
 .contact-field {
@@ -940,15 +1117,8 @@ html.snap { scroll-snap-type: y proximity; }
   color: #dc8585;
 }
 
-@container contact-page (width <= 56rem) {
-  .contact-card {
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-areas:
-      "form"
-      "info";
-    gap: 2.25rem;
-  }
-
+/* Contact below Bootstrap's lg (992px): card is one column (see col-12 / order-* in contact.html) */
+@media (max-width: 991.98px) {
   .contact-information {
     padding-top: 0;
   }
@@ -956,10 +1126,6 @@ html.snap { scroll-snap-type: y proximity; }
   .contact-map {
     flex: none;
     height: 272px;
-  }
-
-  .contact-input-row--split {
-    grid-template-columns: minmax(0, 1fr);
   }
 }
 
@@ -980,39 +1146,45 @@ html.snap { scroll-snap-type: y proximity; }
   font-size-adjust: from-font;
 }
 
+/* About hero
+   Phones/tablets: portrait crop of the photo on top, the title and lead
+   start on its dark bottom edge, the rest of the text follows on black.
+   Desktop: full studio photo behind, text on the left, artist on the right. */
 .about-hero {
-  --about-bg: url("../images/aboutme-background.png");
-  position: relative;
+  /* position: relative comes from Bootstrap's position-relative class in the HTML */
   isolation: isolate;
-  padding: calc(var(--menu-h) + clamp(3rem, 6vw, 5rem)) var(--pad) clamp(4rem, 7vw, 6rem);
-  background: #0a0a0a;
+  background: #000;
 }
 
-.about-hero::before,
-.about-hero::after {
+.about-hero__media {
+  position: relative;
+  display: block;
+}
+
+.about-hero__media img {
+  display: block;
+  width: 100%;
+  height: auto; /* aspect-ratio wins over the height="" attribute */
+  aspect-ratio: 4 / 5;
+  max-height: 88svh;
+  object-fit: cover;
+  object-position: 50% 20%; /* face stays in frame when the height is capped */
+}
+
+/* dark top for the navbar, fade to black at the bottom for the title */
+.about-hero__media::after {
   position: absolute;
   inset: 0;
   content: "";
-  pointer-events: none;
-}
-
-.about-hero::before {
-  z-index: -2;
-  background-image: var(--about-bg);
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-}
-
-.about-hero::after {
-  z-index: -1;
-  background: linear-gradient(to bottom, transparent 70%, #000 100%);
+  background:
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.55) 0%, transparent 18%),
+    linear-gradient(to bottom, transparent 55%, rgba(0, 0, 0, 0.85) 82%, #000 100%);
 }
 
 .about-hero__plus {
-  position: absolute;
-  z-index: 1;
-  inset-block-start: calc(var(--menu-h) + 2rem);
+  /* position: absolute comes from Bootstrap's position-absolute class in the HTML */
+  z-index: 2;
+  inset-block-start: calc(var(--menu-h) + 1rem);
   color: var(--white);
   font-size: clamp(1.5rem, 2vw, 1.8rem);
   line-height: 1;
@@ -1026,57 +1198,20 @@ html.snap { scroll-snap-type: y proximity; }
   inset-inline-end: var(--pad);
 }
 
-.about-hero__plus--bottom-left,
-.about-hero__plus--bottom-right {
-  inset-block-start: auto;
-  inset-block-end: 1.25rem;
-}
-
-.about-hero__plus--bottom-left {
-  inset-inline-start: var(--pad);
-}
-
-.about-hero__plus--bottom-right {
-  inset-inline-end: var(--pad);
-}
-
-.about-hero__inner {
+.about-copy {
   position: relative;
   z-index: 1;
-  display: grid;
-  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
-  grid-template-areas:
-    "title    portrait"
-    "lead     portrait"
-    "body     portrait"
-    "quote    quote";
-  align-items: center;
-  gap: 0 clamp(2rem, 6vw, 5rem);
-  width: min(100%, 76rem);
-  margin-inline: auto;
-}
-
-.about-copy {
-  display: contents; /* its children sit directly in the hero grid */
-  max-width: 62ch;
-  justify-self: center;
-  text-align: right;
-}
-
-.about-title,
-.about-lead,
-.about-body {
-  width: min(100%, 40rem); /* keeps the text column width it had before */
-  justify-self: center;
+  max-width: 40rem;
+  margin: -7rem auto 0; /* pulls the title up onto the photo's dark edge */
+  padding: 0 var(--gutter) clamp(2.5rem, 5vw, 3.5rem);
 }
 
 .about-title {
-  grid-area: title;
+  text-wrap: balance; /* no single word left alone on the last line */
   display: flex;
   align-items: center;
-  justify-content: right;
   gap: 0.3em;
-  margin: 0.2rem 0 clamp(1.5rem, 3vw, 2.5rem);
+  margin: 0 0 1rem;
   font-size: var(--fs-lg);
   font-weight: 800;
   letter-spacing: var(--ls-title);
@@ -1089,34 +1224,30 @@ html.snap { scroll-snap-type: y proximity; }
 }
 
 .about-lead {
-  grid-area: lead;
-  margin: 0 auto 1.5rem;
-  font-size: clamp(1rem, 2.2vw, 1.2rem);
-  line-height: 1.65;
+  margin: 0 0 1.5rem;
+  font-size: clamp(1.0625rem, 2.2vw, 1.25rem);
+  line-height: 1.6;
 }
 
 .about-lead em {
   font-family: "Times New Roman", Times, serif;
+  font-size: 1.2em;
   font-style: italic;
 }
 
 .about-body {
-  grid-area: body;
-  max-width: 60ch;
-  margin: 0 auto;
+  margin: 0;
   color: rgba(255, 255, 255, 0.84);
-  font-size: clamp(1rem, 1.2vw, 1.125rem);
-  line-height: 1.8;
+  font-size: clamp(0.9375rem, 1.2vw, 1rem);
+  line-height: 1.75;
 }
 
 .about-quote {
-  grid-area: quote; /* spans both columns = centred on the page */
-  justify-self: center;
   position: relative;
-  max-width: 44rem;
-  margin: clamp(2rem, 4vw, 3rem) auto 0;
-  padding: 1.5rem 2rem;
-  font-size: clamp(1.35rem, 2.4vw, 1.9rem);
+  margin: clamp(2rem, 4vw, 2.5rem) 0 0;
+  padding: 1.5rem 2.5rem;
+  color: var(--nav-muted);
+  font-size: clamp(1.125rem, 2vw, 1.375rem);
   line-height: 1.45;
   text-align: center;
 }
@@ -1126,6 +1257,7 @@ html.snap { scroll-snap-type: y proximity; }
 }
 
 .about-quote strong {
+  color: var(--white);
   font-family: "Times New Roman", Times, serif;
   font-size: calc(1em + 0.1875rem);
   font-weight: 700;
@@ -1149,46 +1281,72 @@ html.snap { scroll-snap-type: y proximity; }
 }
 
 .about-quote::after {
-  inset-block-end: 0;
+  inset-block-end: -1.5rem;
   inset-inline-end: 0;
   content: "\201D";
 }
 
-.about-portrait {
-  grid-area: portrait;
-  position: relative;
-  display: grid;
-  place-items: center;
-  width: min(100%, 24rem);
-  aspect-ratio: 5 / 6;
-  justify-self: center;
-  margin: 1px;
-  border: 1px solid rgba(255, 255, 255, 0.42);
-  border-radius: 0.75rem;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18);
-  object-fit: cover;
+/* tablet: squarer crop, text starts a little higher on the photo */
+@media (min-width: 48rem) and (max-width: 64rem) {
+  .about-hero__media img {
+    aspect-ratio: 1 / 1.05;
+  }
+
+  .about-copy {
+    margin-block-start: -9rem;
+  }
 }
 
-.about-portrait::before,
-.about-portrait::after {
-  position: absolute;
-  display: block;
-  background: rgba(255, 255, 255, 0.18);
-  content: "";
-}
+/* desktop: photo fills the hero, text column ends before the artist */
+@media (min-width: 64.0625rem) {
+  .about-hero {
+    --copy-end: 52%; /* the artist starts at ~57% of the width at every desktop size */
+    display: flex;
+    align-items: center;
+    min-height: min(100svh, 56rem);
+    padding-block: calc(var(--menu-h) + 3rem) 3rem;
+  }
 
-.about-portrait::before {
-  inset-block-start: 27%;
-  width: 5rem;
-  aspect-ratio: 1;
-  border-radius: 50%;
-}
+  .about-hero__media {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+  }
 
-.about-portrait::after {
-  inset-block-end: 17%;
-  width: 58%;
-  height: 34%;
-  border-radius: 50% 50% 12% 12%;
+  .about-hero__media img {
+    height: 100%;
+    max-height: none;
+    aspect-ratio: auto;
+    object-position: 60% 30%;
+  }
+
+  .about-hero__media::after {
+    background:
+      linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 0%, transparent 18%),
+      linear-gradient(to right, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.35) 45%, transparent 60%),
+      linear-gradient(to bottom, transparent 75%, #000 100%);
+  }
+
+  .about-hero__plus {
+    inset-block-start: calc(var(--menu-h) + 1.5rem);
+  }
+
+  .about-copy {
+    box-sizing: border-box;
+    width: min(34rem, calc(var(--copy-end) - var(--gutter) - 3rem));
+    max-width: none;
+    margin: 0 0 0 max(calc(var(--gutter) + 3rem), calc(var(--copy-end) - 34rem));
+    padding: 0;
+    text-align: right;
+  }
+
+  .about-title {
+    justify-content: flex-end;
+  }
+
+  .about-lead {
+    font-size: 1.1875rem;
+  }
 }
 
 .about-services {
@@ -1242,6 +1400,8 @@ html.snap { scroll-snap-type: y proximity; }
 }
 
 .service-card__slashes {
+  display: inline-block;
+  width: 1em; /* fixed width: the title word always starts at 1em + gap */
   font-weight: 400;
 }
 
@@ -1290,8 +1450,9 @@ html.snap { scroll-snap-type: y proximity; }
 .service-card__details-inner img {
   display: block;
   width: 100%;
+  height: auto; /* lets aspect-ratio win over the height="" attribute in the HTML */
   aspect-ratio: 4 / 3;
-  border-radius: 0.5rem;
+  border-radius: 2px;
   object-fit: cover;
 }
 
@@ -1329,82 +1490,56 @@ html.snap { scroll-snap-type: y proximity; }
 }
 
 @media (max-width: 48rem) {
-  .contact-page-main::before {
-    background-size: 100% auto;
-    background-position: center top;
-  }
-
-  .about-hero__inner {
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-areas:
-      "title"
-      "portrait"
-      "lead"
-      "body"
-      "quote";
-    gap: 0;
-  }
-
-  .about-hero::before {
-    background-size: 100% auto;
-    background-position: center top;
-  }
-
-  .about-portrait {
-    width: min(76%, 22rem);
-    margin-block-end: 2.5rem;
-  }
-
   .service-card__details-inner {
     grid-template-columns: minmax(0, 1fr);
     gap: 0.75rem;
   }
 
+  /* open card: photo under the title (lined up with the word, not the //),
+     then the paragraph, then See more on the right */
   .service-card__details-inner img {
+    order: -1;
+    width: calc(100% - var(--service-title-size) - 0.75rem);
     max-height: 14rem;
+    margin-inline-start: calc(var(--service-title-size) + 0.75rem);
+  }
+
+  .service-card__link {
+    order: 1;
+    justify-self: end;
   }
 }
 
 /* About page — desktop only */
 @media (min-width: 48.0625rem) {
-  /* less space between the quote and the services */
-  .about-hero {
-    padding-block-end: clamp(1.5rem, 3vw, 2.5rem);
-  }
-
   .about-services {
     padding-block-start: clamp(1rem, 2vw, 1.5rem);
   }
 
-  /* photo stretches from the top of THE ARTIST to the end of the text */
-  .about-portrait {
-    align-self: stretch;
-    aspect-ratio: auto;
-    contain: size; /* the photo follows the text height instead of pushing it */
-    min-height: 18rem;
-  }
-
-  /* open card: See more | photo | paragraph */
+  /* open card: photo (lined up with the title word) | paragraph,
+     See more under the paragraph, on its right edge */
   .service-card__details-inner {
-    grid-template-columns: minmax(7rem, 0.5fr) minmax(7rem, 0.45fr) minmax(0, 1.5fr);
+    grid-template-columns: minmax(8.4rem, 0.54fr) minmax(0, 1.5fr); /* photo column 20% wider than before (0.45fr) */
+    row-gap: 0.25rem;
   }
 
   .service-card__details-inner img {
-    order: 1;
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    align-self: start;
+    width: calc(100% - var(--service-title-size) - 0.75rem);
+    margin-inline-start: calc(var(--service-title-size) + 0.75rem);
   }
 
   .service-desc {
-    order: 2;
-  }
-
-  /* See more starts where the word after // starts */
-  .service-card__slashes {
-    display: inline-block;
-    width: 1em;
+    grid-column: 2;
+    grid-row: 1;
   }
 
   .service-card__link {
-    margin-inline-start: calc(var(--service-title-size) + 0.75rem);
+    grid-column: 2;
+    grid-row: 2;
+    justify-self: end;
   }
 }
 
@@ -1429,15 +1564,10 @@ html.snap { scroll-snap-type: y proximity; }
 }
 
 /* Responsive layouts */
-@media (max-width: 40rem) {
-  .grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-/* 2-column grid: hide a lone last card so rows stay even */
-@media (min-width: 22.0625rem) and (max-width: 40rem) {
-  .grid > .card:last-child:nth-child(odd) {
+/* Gallery on phones (2 per row, below Bootstrap's md = 768px):
+   hide a lone last photo so rows stay even */
+@media (max-width: 767.98px) {
+  .gallery-grid > .col:last-child:nth-child(odd) {
     display: none;
   }
 }
@@ -1448,18 +1578,29 @@ html.snap { scroll-snap-type: y proximity; }
   }
 
   .hero__title {
-    letter-spacing: 0.04em;
+    --track: 0.04em;
   }
 }
 
 /* narrow phones: tighter navbar so it fits on one line */
-@media (max-width: 24rem) {
+@media (max-width: 28rem) {
   .site-nav {
     --nav-fs: 0.875rem;
   }
 
   .site-nav .nav-links {
     gap: 0.75rem;
+  }
+
+  :root {
+    --logo-h: 1.5rem;
+  }
+}
+
+/* 360px phones: a bit less space between links so Instagram still fits */
+@media (max-width: 23rem) {
+  .site-nav .nav-links {
+    gap: 0.5rem;
   }
 }
 
@@ -1472,10 +1613,6 @@ html.snap { scroll-snap-type: y proximity; }
 }
 
 @media (max-width: 22rem) {
-  .grid {
-    grid-template-columns: 1fr;
-  }
-
   .site-nav {
     --nav-fs: 0.8125rem;
   }
@@ -1485,26 +1622,19 @@ html.snap { scroll-snap-type: y proximity; }
   }
 }
 
-@media (max-width: 56rem) {
-  .site-nav .nav-links {
-    gap: clamp(0.85rem, 4vw, 2.5rem);
-  }
-
-  .site-footer__inner {
-    grid-template-columns: minmax(0, 1fr);
-    justify-items: center;
-    row-gap: 0;
+/* Footer below Bootstrap's lg (992px): one centred column.
+   Column widths and the order of logo / contact / newsletter come from col-12 and order-* in footer.html */
+@media (max-width: 991.98px) {
+  .footer-substack {
+    width: min(100%, 34rem);
+    margin-inline: auto;
   }
 
   .footer-substack {
-    order: 3;
-    width: min(100%, 34rem);
+    --substack-logo: 1.05rem;
   }
 
   .footer-brand {
-    order: 1;
-    grid-column: 1;
-    justify-self: stretch;
     margin-block-end: 1.5rem;
   }
 
@@ -1512,36 +1642,66 @@ html.snap { scroll-snap-type: y proximity; }
     max-height: 3.85rem;
   }
 
+  /* Bootstrap can't split one column, so this stays custom: the contact column "disappears"
+     (display: contents) and its two parts become separate items of the row,
+     so the copyright can go last (order 4), after the newsletter (order-3) */
   .site-footer--home .footer-contact {
     display: contents;
-    grid-column: 1;
-    justify-self: center;
-    align-items: center;
     text-align: center;
   }
 
-  .site-footer--home .footer-contact__lead {
+  .site-footer--home .footer-contact__details {
+    width: 100%;
+    align-items: center;
     order: 2;
   }
 
-  .site-footer--home .footer-contact a {
-    order: 2;
-    margin-block-end: 1.5rem;
+  .site-footer--home .footer-contact__enquiries {
+    min-height: 2.75rem; /* 44px touch target on mobile */
+    margin-block-end: 0.875rem; /* min-height adds ~0.625rem below; keeps the 1.5rem gap */
   }
 
   .site-footer--home .footer-copyright {
+    width: 100%;
     order: 4;
     margin-block-start: 1.5rem;
   }
 }
 
+/* Gallery photos fade and rise in as they scroll into view, driven by the scroll itself
+   (CSS scroll-driven animations, no JavaScript). Browsers without support and users
+   who ask for less motion simply see the photos as normal. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .gallery-grid > .col {
+      animation: gallery-reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 70%;
+    }
+  }
+}
+
+@keyframes gallery-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(2.5rem) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .header,
   .gallery-category-link,
   .gallery-category-link::after,
   .footer-substack__logo path,
   .site-nav a,
-  .card__label,
+  .gallery-card__label,
   .footer-contact a,
+  .site-footer--home .footer-contact__enquiries,
   .footer-substack__form button {
     transition: none;
   }
