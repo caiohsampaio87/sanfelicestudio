@@ -41,6 +41,8 @@
               action="https://api.web3forms.com/submit"
               method="POST">
           <input type="hidden" name="access_key" value="fd4bf087-0cf2-4641-b375-fbeb6849988e">
+          <!-- filled in by the "How did you hear about us?" pop-up, sent with the message -->
+          <input type="hidden" name="heard_about" id="contact-heard-about">
 
           <fieldset class="contact-name-group">
             <legend class="contact-field__label">Name (required)</legend>
@@ -127,12 +129,81 @@
         </div>
       </section>
     </div>
+
   </main>
+  <!-- "How did you hear about us?" pop-up (Bootstrap Modal + form-check radios).
+       Opens the first time a form field gets focus; once answered, the form can be filled in -->
+  <div class="modal fade heard-modal" id="heard-about-modal" tabindex="-1" role="dialog" aria-labelledby="heard-about-title" aria-hidden="true" data-bs-theme="dark">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content heard-modal__content">
+        <button type="button" class="btn-close heard-modal__close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <form class="heard-modal__form" id="heard-about-form">
+          <h2 class="heard-modal__title" id="heard-about-title">
+            <span class="contact-form-title__asterisk" aria-hidden="true">*</span>How did you hear about us?
+          </h2>
+          <fieldset class="heard-modal__options">
+            <legend class="visually-hidden">How did you hear about us?</legend>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="heard" id="heard-google" value="Google" required>
+              <label class="form-check-label" for="heard-google">Google</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="heard" id="heard-social" value="Social media">
+              <label class="form-check-label" for="heard-social">Social media</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="heard" id="heard-friend" value="Friend / colleague">
+              <label class="form-check-label" for="heard-friend">Friend / colleague</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="heard" id="heard-ads" value="Advertising">
+              <label class="form-check-label" for="heard-ads">Advertising</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="heard" id="heard-other" value="Other">
+              <label class="form-check-label" for="heard-other">Other</label>
+            </div>
+          </fieldset>
+          <button class="contact-submit heard-modal__submit" type="submit">Continue</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
   <!-- ===== Footer (components/footer.html) ===== -->
   <div id="site-footer"></div>
+  <!-- Bootstrap 5.3.9 JS bundle: runs the Modal component used by the "How did you hear about us?" pop-up -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.9/dist/js/bootstrap.bundle.min.js" integrity="sha384-WyOxWvTyr1QaMPfiPJSv76iReVthorl5uWlFtZPyK0IEB0hGzo9y5Bp9mYanr8Bu" crossorigin="anonymous"></script>
   <!-- Page script -->
   <script>
     const contactForm = document.querySelector("#contact-form");
+
+    // "How did you hear about us?" pop-up: shown the first time any field of the form gets focus.
+    // After an answer, the pop-up closes and the cursor goes back to the field the person chose.
+    const heardModalEl = document.querySelector("#heard-about-modal");
+    const heardForm = document.querySelector("#heard-about-form");
+    const heardInput = document.querySelector("#contact-heard-about");
+    if (window.bootstrap && heardModalEl) {
+      const heardModal = new bootstrap.Modal(heardModalEl);
+      let pendingField = null;
+
+      contactForm.addEventListener("focusin", (event) => {
+        if (heardInput.value || !event.target.matches("input, textarea, button")) return;
+        pendingField = event.target;
+        heardModal.show();
+      });
+
+      heardForm.addEventListener("submit", (event) => {
+        event.preventDefault(); // the radios are required, so the browser asks for a choice first
+        heardInput.value = new FormData(heardForm).get("heard");
+        heardModal.hide();
+      });
+
+      heardModalEl.addEventListener("shown.bs.modal", () => heardForm.querySelector("input").focus());
+      heardModalEl.addEventListener("hidden.bs.modal", () => {
+        if (heardInput.value) pendingField?.focus();
+      });
+    }
     const contactStatus = document.querySelector("#contact-form-status");
     const submitButton = contactForm.querySelector('button[type="submit"]');
     const submitLabel = submitButton.textContent;

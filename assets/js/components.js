@@ -51,7 +51,7 @@ function initNewsletter() {
 // Galleries: clicking a photo opens it in a Bootstrap modal with the copyright line.
 // Only runs on pages that load Bootstrap's JS and have gallery cards.
 const LIGHTBOX_HTML = `
-  <div class="modal fade lightbox" id="photo-lightbox" tabindex="-1" aria-label="Photo viewer" aria-hidden="true" data-bs-theme="dark">
+  <div class="modal fade lightbox" id="photo-lightbox" tabindex="-1" role="dialog" aria-label="Photo viewer" aria-hidden="true" data-bs-theme="dark">
     <div class="modal-dialog modal-dialog-centered lightbox__dialog">
       <div class="modal-content lightbox__content">
         <button type="button" class="btn-close lightbox__close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -89,6 +89,26 @@ function initLightbox() {
 }
 
 initLightbox();
+
+// Galleries: photos fade in as they scroll into view (the look is in style.css, .js-reveal)
+function initGalleryReveal() {
+  const columns = document.querySelectorAll(".gallery-grid > .col");
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!columns.length || reduceMotion || !("IntersectionObserver" in window)) return;
+
+  document.documentElement.classList.add("js-reveal");
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add("is-visible");
+      observer.unobserve(entry.target); // reveal once
+    });
+  }, { rootMargin: "0px 0px -10% 0px" });
+
+  columns.forEach((column) => observer.observe(column));
+}
+
+initGalleryReveal();
 
 // Navbar: transparent at the top of the page, dark background once the page scrolls
 // (the fixed position itself is Bootstrap's fixed-top, see components/navbar.html)

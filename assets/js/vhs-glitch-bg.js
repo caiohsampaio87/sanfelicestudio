@@ -272,8 +272,12 @@ void main(){
     frame();
 
     var api;
+    var stopped = false;
     api = {
       set: function (k, v) { P[k] = v; },
+      // stop / restart drawing (used by the hero's pause button; the last frame stays on screen)
+      pause: function () { stopped = true; cancelAnimationFrame(raf); },
+      resume: function () { if (stopped) { stopped = false; frame(); } },
       destroy: function () { cancelAnimationFrame(raf); canvas.remove(); video.style.cssText = origCss; delete video.__vhs; }
     };
     video.__vhs = api;

@@ -25,7 +25,7 @@
     <!-- Hero -->
     <section class="hero position-relative" id="top" aria-labelledby="hero-title">
       <!-- background video (decorative): WebM first, MP4 for browsers without WebM.
-           No autoplay here: the VHS effect script below starts it only when the user allows motion;
+           No autoplay here: hero-video.js starts it only when the user allows motion;
            the poster shows otherwise -->
       <video class="hero__video position-absolute" muted loop playsinline preload="none" poster="assets/images/home-hero-poster.webp" aria-hidden="true">
         <source src="assets/video/homebackground.webm" type="video/webm">
@@ -35,6 +35,11 @@
         <h1 class="hero__title" id="hero-title" translate="no">Sanfelice Studio</h1>
         <p class="hero__location">London</p>
       </div>
+      <!-- Pause / play the background video (shown by hero-video.js when motion is allowed) -->
+      <button class="hero-pause position-absolute" type="button" aria-pressed="false" aria-label="Pause background video" hidden>
+        <svg class="hero-pause__icon hero-pause__icon--pause" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+        <svg class="hero-pause__icon hero-pause__icon--play" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.2-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg>
+      </button>
       <a class="hero-scroll position-absolute" href="#work" aria-label="Scroll down for portfolio"><span class="hero-scroll__text" aria-hidden="true"><span class="hero-scroll__flap" style="--i: 0">S</span><span class="hero-scroll__flap" style="--i: 1">c</span><span class="hero-scroll__flap" style="--i: 2">r</span><span class="hero-scroll__flap" style="--i: 3">o</span><span class="hero-scroll__flap" style="--i: 4">l</span><span class="hero-scroll__flap" style="--i: 5">l</span> <span class="hero-scroll__flap" style="--i: 6">d</span><span class="hero-scroll__flap" style="--i: 7">o</span><span class="hero-scroll__flap" style="--i: 8">w</span><span class="hero-scroll__flap" style="--i: 9">n</span> <span class="hero-scroll__flap" style="--i: 10">f</span><span class="hero-scroll__flap" style="--i: 11">o</span><span class="hero-scroll__flap" style="--i: 12">r</span> <span class="hero-scroll__flap" style="--i: 13">p</span><span class="hero-scroll__flap" style="--i: 14">o</span><span class="hero-scroll__flap" style="--i: 15">r</span><span class="hero-scroll__flap" style="--i: 16">t</span><span class="hero-scroll__flap" style="--i: 17">f</span><span class="hero-scroll__flap" style="--i: 18">o</span><span class="hero-scroll__flap" style="--i: 19">l</span><span class="hero-scroll__flap" style="--i: 20">i</span><span class="hero-scroll__flap" style="--i: 21">o</span></span></a>
       <span class="hero__plus hero__plus--top-left position-absolute" aria-hidden="true">+</span>
       <span class="hero__plus hero__plus--top-right position-absolute" aria-hidden="true">+</span>
@@ -44,14 +49,15 @@
 
     <!-- Gallery -->
     <section class="section gallery-section gallery-page" id="work" aria-labelledby="gallery-heading">
+      <h2 class="visually-hidden" id="gallery-heading">Portraits gallery</h2>
       <nav class="gallery-categories" aria-label="Gallery categories">
         <ul class="gallery-category-list">
           <li class="gallery-category-item">
-            <h2 class="gallery-category-heading" id="gallery-heading">
+            <span class="gallery-category-heading">
               <a class="gallery-category-link" href="portraits.html" aria-current="page">
                 <span class="asterisk" aria-hidden="true">✱</span><span>Portraits</span>
               </a>
-            </h2>
+            </span>
             <span class="gallery-category-separator" aria-hidden="true">·</span>
           </li>
           <li class="gallery-category-item">
@@ -149,13 +155,7 @@
 <script src="assets/js/components.js"></script>
 <!-- Hero: VHS + glitch + analog noise effect (WebGL) on the background video -->
 <script src="assets/js/vhs-glitch-bg.js"></script>
-<script>
-  // Only when the user allows motion; with "reduce motion" on, the still poster stays
-  if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    const heroVideo = document.querySelector(".hero__video");
-    heroVideo.preload = "auto";
-    VhsGlitch(heroVideo);
-  }
-</script>
+<!-- Hero: starts the video with the VHS effect and runs the pause button -->
+<script src="assets/js/hero-video.js"></script>
 </body>
 </html>
