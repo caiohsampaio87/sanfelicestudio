@@ -4,3 +4,11 @@
 # Editor and personal settings
 .vscode/
 .claude/settings.local.json
+
+# Project documents (course briefs, proposal, notes): kept locally, not part of the site
+docs/
+
+# Claude Code / agent skills: local tools, not part of the site
+.agents/
+.claude/
+skills-lock.json
