@@ -420,6 +420,12 @@ html {
   scroll-snap-align: start;
 }
 
+/* The bottom of the page is a snap point too. Without it, focusing the footer's email field
+   (or a phone keyboard opening) made the page snap back up to the last section */
+.site-footer {
+  scroll-snap-align: end;
+}
+
 .gallery-section {
   min-height: auto;
   padding: clamp(2rem, 4vw, 3rem) var(--pad) 3rem;
