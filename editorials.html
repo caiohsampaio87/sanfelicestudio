@@ -15,11 +15,13 @@
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
+<!-- Skip link: hidden until focused with Tab (Bootstrap visually-hidden-focusable) -->
+<a class="skip-link visually-hidden-focusable" href="#main">Skip to content</a>
   <!-- ===== Header / main navigation (components/navbar.html) ===== -->
   <div id="site-navbar"></div>
 
   <!-- ===== Main content ===== -->
-  <main>
+  <main id="main">
     <!-- Hero -->
     <section class="hero position-relative" id="top" aria-labelledby="hero-title">
       <!-- background video (decorative): WebM first, MP4 for browsers without WebM.
@@ -30,7 +32,7 @@
         <source src="assets/video/homebackground.mp4" type="video/mp4">
       </video>
       <div class="hero__content position-relative">
-        <h1 class="hero__title" id="hero-title">Sanfelice Studio</h1>
+        <h1 class="hero__title" id="hero-title" translate="no">Sanfelice Studio</h1>
         <p class="hero__location">London</p>
       </div>
       <a class="hero-scroll position-absolute" href="#work" aria-label="Scroll down for portfolio"><span class="hero-scroll__text" aria-hidden="true"><span class="hero-scroll__flap" style="--i: 0">S</span><span class="hero-scroll__flap" style="--i: 1">c</span><span class="hero-scroll__flap" style="--i: 2">r</span><span class="hero-scroll__flap" style="--i: 3">o</span><span class="hero-scroll__flap" style="--i: 4">l</span><span class="hero-scroll__flap" style="--i: 5">l</span> <span class="hero-scroll__flap" style="--i: 6">d</span><span class="hero-scroll__flap" style="--i: 7">o</span><span class="hero-scroll__flap" style="--i: 8">w</span><span class="hero-scroll__flap" style="--i: 9">n</span> <span class="hero-scroll__flap" style="--i: 10">f</span><span class="hero-scroll__flap" style="--i: 11">o</span><span class="hero-scroll__flap" style="--i: 12">r</span> <span class="hero-scroll__flap" style="--i: 13">p</span><span class="hero-scroll__flap" style="--i: 14">o</span><span class="hero-scroll__flap" style="--i: 15">r</span><span class="hero-scroll__flap" style="--i: 16">t</span><span class="hero-scroll__flap" style="--i: 17">f</span><span class="hero-scroll__flap" style="--i: 18">o</span><span class="hero-scroll__flap" style="--i: 19">l</span><span class="hero-scroll__flap" style="--i: 20">i</span><span class="hero-scroll__flap" style="--i: 21">o</span></span></a>
@@ -65,55 +67,73 @@
       <div class="gallery-grid row row-cols-2 row-cols-md-3 g-3 g-lg-4">
         <div class="col">
           <figure class="gallery-card position-relative">
-            <img class="d-block w-100 h-100 object-fit-cover" src="assets/images/editorial-vogue-italia-turtleneck.webp" alt="Vogue Italia PhotoVogue cover: black-and-white portrait of a man with slicked-back hair in a black turtleneck, head tilted back" loading="lazy">
+            <button class="gallery-card__button" type="button" aria-haspopup="dialog">
+              <img width="750" height="1000" class="d-block w-100 h-100 object-fit-cover" src="assets/images/editorial-vogue-italia-turtleneck.webp" alt="Vogue Italia PhotoVogue cover: black-and-white portrait of a man with slicked-back hair in a black turtleneck, head tilted back" loading="lazy">
+            </button>
             <figcaption class="gallery-card__label position-absolute">Editorials</figcaption>
           </figure>
         </div>
         <div class="col">
           <figure class="gallery-card position-relative">
-            <img class="d-block w-100 h-100 object-fit-cover" src="assets/images/editorial-gmaro-transcendence-garden.webp" alt="GMARO Magazine October 2025 cover, &quot;Transcendence Garden&quot;: a woman in a sculptural embroidered floral costume holding a dandelion, hair flying, against a warm painted backdrop" loading="lazy">
+            <button class="gallery-card__button" type="button" aria-haspopup="dialog">
+              <img width="733" height="977" class="d-block w-100 h-100 object-fit-cover" src="assets/images/editorial-gmaro-transcendence-garden.webp" alt="GMARO Magazine October 2025 cover, &quot;Transcendence Garden&quot;: a woman in a sculptural embroidered floral costume holding a dandelion, hair flying, against a warm painted backdrop" loading="lazy">
+            </button>
             <figcaption class="gallery-card__label position-absolute">Editorials</figcaption>
           </figure>
         </div>
         <div class="col">
           <figure class="gallery-card position-relative">
-            <img class="d-block w-100 h-100 object-fit-cover" src="assets/images/editorial-laundromat.webp" alt="Editorial of a young man in a white T-shirt, navy jacket and white high-top sneakers, lounging inside the drum of a teal laundromat dryer" loading="lazy">
+            <button class="gallery-card__button" type="button" aria-haspopup="dialog">
+              <img width="900" height="1200" class="d-block w-100 h-100 object-fit-cover" src="assets/images/editorial-laundromat.webp" alt="Editorial of a young man in a white T-shirt, navy jacket and white high-top sneakers, lounging inside the drum of a teal laundromat dryer" loading="lazy">
+            </button>
             <figcaption class="gallery-card__label position-absolute">Editorials</figcaption>
           </figure>
         </div>
         <div class="col">
           <figure class="gallery-card position-relative">
-            <img class="d-block w-100 h-100 object-fit-cover" src="assets/images/editorial-yellow-crown.webp" alt="Editorial of a shirtless man with a high-top haircut and yellow gloves, outlined with hand-drawn dashed lines and a crown on a bright yellow background" loading="lazy">
+            <button class="gallery-card__button" type="button" aria-haspopup="dialog">
+              <img width="900" height="1200" class="d-block w-100 h-100 object-fit-cover" src="assets/images/editorial-yellow-crown.webp" alt="Editorial of a shirtless man with a high-top haircut and yellow gloves, outlined with hand-drawn dashed lines and a crown on a bright yellow background" loading="lazy">
+            </button>
             <figcaption class="gallery-card__label position-absolute">Editorials</figcaption>
           </figure>
         </div>
         <div class="col">
           <figure class="gallery-card position-relative">
-            <img class="d-block w-100 h-100 object-fit-cover" src="assets/images/editorial-boys-magazine.webp" alt="Boys Magazine cover, &quot;His Story / Hair Story&quot;: black-and-white portrait of a shirtless young man running a hand through wet hair" loading="lazy">
+            <button class="gallery-card__button" type="button" aria-haspopup="dialog">
+              <img width="461" height="615" class="d-block w-100 h-100 object-fit-cover" src="assets/images/editorial-boys-magazine.webp" alt="Boys Magazine cover, &quot;His Story / Hair Story&quot;: black-and-white portrait of a shirtless young man running a hand through wet hair" loading="lazy">
+            </button>
             <figcaption class="gallery-card__label position-absolute">Editorials</figcaption>
           </figure>
         </div>
         <div class="col">
           <figure class="gallery-card position-relative">
-            <img class="d-block w-100 h-100 object-fit-cover" src="assets/images/editorial-benneb-visor.webp" alt="BENNEB magazine cover: a shirtless young man in a translucent grey visor against a teal backdrop" loading="lazy">
+            <button class="gallery-card__button" type="button" aria-haspopup="dialog">
+              <img width="900" height="1200" class="d-block w-100 h-100 object-fit-cover" src="assets/images/editorial-benneb-visor.webp" alt="BENNEB magazine cover: a shirtless young man in a translucent grey visor against a teal backdrop" loading="lazy">
+            </button>
             <figcaption class="gallery-card__label position-absolute">Editorials</figcaption>
           </figure>
         </div>
         <div class="col">
           <figure class="gallery-card position-relative">
-            <img class="d-block w-100 h-100 object-fit-cover" src="assets/images/editorial-glp-noah.webp" alt="GLP Carreiras cover featuring Noah: black-and-white full-length portrait of a shirtless young man in a feathered headdress, high-waisted black trousers and boots" loading="lazy">
+            <button class="gallery-card__button" type="button" aria-haspopup="dialog">
+              <img width="703" height="938" class="d-block w-100 h-100 object-fit-cover" src="assets/images/editorial-glp-noah.webp" alt="GLP Carreiras cover featuring Noah: black-and-white full-length portrait of a shirtless young man in a feathered headdress, high-waisted black trousers and boots" loading="lazy">
+            </button>
             <figcaption class="gallery-card__label position-absolute">Editorials</figcaption>
           </figure>
         </div>
         <div class="col">
           <figure class="gallery-card position-relative">
-            <img class="d-block w-100 h-100 object-fit-cover" src="assets/images/editorial-ruffle-shoulders.webp" alt="Full-length editorial of a man with a buzz cut in a black top with oversized ruffled shoulders, lace panels, jeans and combat boots, under blue and pink light" loading="lazy">
+            <button class="gallery-card__button" type="button" aria-haspopup="dialog">
+              <img width="900" height="1200" class="d-block w-100 h-100 object-fit-cover" src="assets/images/editorial-ruffle-shoulders.webp" alt="Full-length editorial of a man with a buzz cut in a black top with oversized ruffled shoulders, lace panels, jeans and combat boots, under blue and pink light" loading="lazy">
+            </button>
             <figcaption class="gallery-card__label position-absolute">Editorials</figcaption>
           </figure>
         </div>
         <div class="col">
           <figure class="gallery-card position-relative">
-            <img class="d-block w-100 h-100 object-fit-cover" src="assets/images/editorial-feather-dress.webp" alt="Editorial of a woman with arms raised in a black-and-white feather dress, a magenta feather headpiece and pink eye makeup, against a white backdrop" loading="lazy">
+            <button class="gallery-card__button" type="button" aria-haspopup="dialog">
+              <img width="900" height="1200" class="d-block w-100 h-100 object-fit-cover" src="assets/images/editorial-feather-dress.webp" alt="Editorial of a woman with arms raised in a black-and-white feather dress, a magenta feather headpiece and pink eye makeup, against a white backdrop" loading="lazy">
+            </button>
             <figcaption class="gallery-card__label position-absolute">Editorials</figcaption>
           </figure>
         </div>

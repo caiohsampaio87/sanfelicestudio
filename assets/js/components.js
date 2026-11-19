@@ -64,41 +64,28 @@ const LIGHTBOX_HTML = `
   </div>`;
 
 function initLightbox() {
-  const cards = document.querySelectorAll(".gallery-grid .gallery-card");
-  if (!cards.length || !window.bootstrap) return;
+  // each photo sits in a real <button> in the HTML (keyboard and focus come built in)
+  const buttons = document.querySelectorAll(".gallery-grid .gallery-card__button");
+  if (!buttons.length || !window.bootstrap) return;
 
   document.body.insertAdjacentHTML("beforeend", LIGHTBOX_HTML);
   const modalEl = document.getElementById("photo-lightbox");
   const modalImg = modalEl.querySelector(".lightbox__img");
   const modal = new bootstrap.Modal(modalEl);
-  let lastCard = null;
+  let lastButton = null;
 
-  function open(card) {
-    const img = card.querySelector("img");
-    modalImg.src = img.currentSrc || img.src;
-    modalImg.alt = img.alt;
-    lastCard = card;
-    modal.show();
-  }
-
-  cards.forEach((card) => {
-    // cards act as buttons, so keyboard users can open them too
-    card.tabIndex = 0;
-    card.setAttribute("role", "button");
-    card.setAttribute("aria-haspopup", "dialog");
-    card.setAttribute("aria-label", `Open photo: ${card.querySelector("img").alt}`);
-
-    card.addEventListener("click", () => open(card));
-    card.addEventListener("keydown", (event) => {
-      if (event.key === "Enter" || event.key === " ") {
-        event.preventDefault();
-        open(card);
-      }
+  buttons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const img = button.querySelector("img");
+      modalImg.src = img.currentSrc || img.src;
+      modalImg.alt = img.alt;
+      lastButton = button;
+      modal.show();
     });
   });
 
   // back to the photo that was opened, so keyboard users keep their place
-  modalEl.addEventListener("hidden.bs.modal", () => lastCard?.focus());
+  modalEl.addEventListener("hidden.bs.modal", () => lastButton?.focus());
 }
 
 initLightbox();

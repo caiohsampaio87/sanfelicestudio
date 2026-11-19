@@ -15,11 +15,13 @@
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
+<!-- Skip link: hidden until focused with Tab (Bootstrap visually-hidden-focusable) -->
+<a class="skip-link visually-hidden-focusable" href="#main">Skip to content</a>
   <!-- ===== Header / main navigation (components/navbar.html) ===== -->
   <div id="site-navbar"></div>
 
   <!-- ===== Main content ===== -->
-  <main>
+  <main id="main">
     <!-- Hero -->
     <section class="hero position-relative" id="top" aria-labelledby="hero-title">
       <!-- background video (decorative): WebM first, MP4 for browsers without WebM.
@@ -30,7 +32,7 @@
         <source src="assets/video/homebackground.mp4" type="video/mp4">
       </video>
       <div class="hero__content position-relative">
-        <h1 class="hero__title" id="hero-title">Sanfelice Studio</h1>
+        <h1 class="hero__title" id="hero-title" translate="no">Sanfelice Studio</h1>
         <p class="hero__location">London</p>
       </div>
       <a class="hero-scroll position-absolute" href="#work" aria-label="Scroll down for portfolio"><span class="hero-scroll__text" aria-hidden="true"><span class="hero-scroll__flap" style="--i: 0">S</span><span class="hero-scroll__flap" style="--i: 1">c</span><span class="hero-scroll__flap" style="--i: 2">r</span><span class="hero-scroll__flap" style="--i: 3">o</span><span class="hero-scroll__flap" style="--i: 4">l</span><span class="hero-scroll__flap" style="--i: 5">l</span> <span class="hero-scroll__flap" style="--i: 6">d</span><span class="hero-scroll__flap" style="--i: 7">o</span><span class="hero-scroll__flap" style="--i: 8">w</span><span class="hero-scroll__flap" style="--i: 9">n</span> <span class="hero-scroll__flap" style="--i: 10">f</span><span class="hero-scroll__flap" style="--i: 11">o</span><span class="hero-scroll__flap" style="--i: 12">r</span> <span class="hero-scroll__flap" style="--i: 13">p</span><span class="hero-scroll__flap" style="--i: 14">o</span><span class="hero-scroll__flap" style="--i: 15">r</span><span class="hero-scroll__flap" style="--i: 16">t</span><span class="hero-scroll__flap" style="--i: 17">f</span><span class="hero-scroll__flap" style="--i: 18">o</span><span class="hero-scroll__flap" style="--i: 19">l</span><span class="hero-scroll__flap" style="--i: 20">i</span><span class="hero-scroll__flap" style="--i: 21">o</span></span></a>
@@ -65,55 +67,73 @@
       <div class="gallery-grid row row-cols-2 row-cols-md-3 g-3 g-lg-4">
         <div class="col">
           <figure class="gallery-card position-relative">
-            <img class="d-block w-100 h-100 object-fit-cover" src="assets/images/project-embrace-bw.webp" alt="Black-and-white portrait of two shirtless men posing close together, one with a buzz cut and an ear cuff, the other with an afro, his arm wrapped around the first" loading="lazy">
+            <button class="gallery-card__button" type="button" aria-haspopup="dialog">
+              <img width="900" height="1200" class="d-block w-100 h-100 object-fit-cover" src="assets/images/project-embrace-bw.webp" alt="Black-and-white portrait of two shirtless men posing close together, one with a buzz cut and an ear cuff, the other with an afro, his arm wrapped around the first" loading="lazy">
+            </button>
             <figcaption class="gallery-card__label position-absolute">Projects</figcaption>
           </figure>
         </div>
         <div class="col">
           <figure class="gallery-card position-relative">
-            <img class="d-block w-100 h-100 object-fit-cover" src="assets/images/project-hourglass-feathers.webp" alt="Portrait of a woman with very long black hair in a black feather headdress with jewelled details and red lips, holding a red sand hourglass, against a dark blue painted backdrop" loading="lazy">
+            <button class="gallery-card__button" type="button" aria-haspopup="dialog">
+              <img width="750" height="1000" class="d-block w-100 h-100 object-fit-cover" src="assets/images/project-hourglass-feathers.webp" alt="Portrait of a woman with very long black hair in a black feather headdress with jewelled details and red lips, holding a red sand hourglass, against a dark blue painted backdrop" loading="lazy">
+            </button>
             <figcaption class="gallery-card__label position-absolute">Projects</figcaption>
           </figure>
         </div>
         <div class="col">
           <figure class="gallery-card position-relative">
-            <img class="d-block w-100 h-100 object-fit-cover" src="assets/images/project-golden-halo.webp" alt="Mixed-media portrait of a person with a bowl haircut in front of a gold-leaf halo and handwritten manuscript, with an orange brushstroke running down the face" loading="lazy">
+            <button class="gallery-card__button" type="button" aria-haspopup="dialog">
+              <img width="750" height="1000" class="d-block w-100 h-100 object-fit-cover" src="assets/images/project-golden-halo.webp" alt="Mixed-media portrait of a person with a bowl haircut in front of a gold-leaf halo and handwritten manuscript, with an orange brushstroke running down the face" loading="lazy">
+            </button>
             <figcaption class="gallery-card__label position-absolute">Projects</figcaption>
           </figure>
         </div>
         <div class="col">
           <figure class="gallery-card position-relative">
-            <img class="d-block w-100 h-100 object-fit-cover" src="assets/images/project-green-denim.webp" alt="Editorial of a man in black sunglasses and a bright green printed denim jacket and jeans, worn open over a bare chest with a silver chain, against a cobalt blue backdrop" loading="lazy">
+            <button class="gallery-card__button" type="button" aria-haspopup="dialog">
+              <img width="900" height="1200" class="d-block w-100 h-100 object-fit-cover" src="assets/images/project-green-denim.webp" alt="Editorial of a man in black sunglasses and a bright green printed denim jacket and jeans, worn open over a bare chest with a silver chain, against a cobalt blue backdrop" loading="lazy">
+            </button>
             <figcaption class="gallery-card__label position-absolute">Projects</figcaption>
           </figure>
         </div>
         <div class="col">
           <figure class="gallery-card position-relative">
-            <img class="d-block w-100 h-100 object-fit-cover" src="assets/images/project-fringe-dress.webp" alt="Editorial of a woman with a dark bob in a burgundy fringed dress and black knee-high boots, mid-stride, against an iridescent backdrop" loading="lazy">
+            <button class="gallery-card__button" type="button" aria-haspopup="dialog">
+              <img width="829" height="1106" class="d-block w-100 h-100 object-fit-cover" src="assets/images/project-fringe-dress.webp" alt="Editorial of a woman with a dark bob in a burgundy fringed dress and black knee-high boots, mid-stride, against an iridescent backdrop" loading="lazy">
+            </button>
             <figcaption class="gallery-card__label position-absolute">Projects</figcaption>
           </figure>
         </div>
         <div class="col">
           <figure class="gallery-card position-relative">
-            <img class="d-block w-100 h-100 object-fit-cover" src="assets/images/project-golden-horns.webp" alt="Long-exposure portrait of a woman with blue-painted skin and gold horns, holding them above her head, with streaks of golden light trailing beside her black robe against a dark blue backdrop" loading="lazy">
+            <button class="gallery-card__button" type="button" aria-haspopup="dialog">
+              <img width="900" height="1200" class="d-block w-100 h-100 object-fit-cover" src="assets/images/project-golden-horns.webp" alt="Long-exposure portrait of a woman with blue-painted skin and gold horns, holding them above her head, with streaks of golden light trailing beside her black robe against a dark blue backdrop" loading="lazy">
+            </button>
             <figcaption class="gallery-card__label position-absolute">Projects</figcaption>
           </figure>
         </div>
         <div class="col">
           <figure class="gallery-card position-relative">
-            <img class="d-block w-100 h-100 object-fit-cover" src="assets/images/project-sky-airplane.webp" alt="Low-angle portrait of a person with windswept auburn hair in a pale blue blazer against a cloudy sky, with an airplane flying overhead" loading="lazy">
+            <button class="gallery-card__button" type="button" aria-haspopup="dialog">
+              <img width="900" height="1200" class="d-block w-100 h-100 object-fit-cover" src="assets/images/project-sky-airplane.webp" alt="Low-angle portrait of a person with windswept auburn hair in a pale blue blazer against a cloudy sky, with an airplane flying overhead" loading="lazy">
+            </button>
             <figcaption class="gallery-card__label position-absolute">Projects</figcaption>
           </figure>
         </div>
         <div class="col">
           <figure class="gallery-card position-relative">
-            <img class="d-block w-100 h-100 object-fit-cover" src="assets/images/project-tuxedo-car.webp" alt="Black-and-white portrait of a man in a white tuxedo jacket with black lapels, resting his head on his hand by a car window" loading="lazy">
+            <button class="gallery-card__button" type="button" aria-haspopup="dialog">
+              <img width="760" height="1014" class="d-block w-100 h-100 object-fit-cover" src="assets/images/project-tuxedo-car.webp" alt="Black-and-white portrait of a man in a white tuxedo jacket with black lapels, resting his head on his hand by a car window" loading="lazy">
+            </button>
             <figcaption class="gallery-card__label position-absolute">Projects</figcaption>
           </figure>
         </div>
         <div class="col">
           <figure class="gallery-card position-relative">
-            <img class="d-block w-100 h-100 object-fit-cover" src="assets/images/project-beard-beanie.webp" alt="Close-up portrait of a man with a full dark beard, an olive beanie and chest tattoos, looking over his shoulder against a turquoise backdrop" loading="lazy">
+            <button class="gallery-card__button" type="button" aria-haspopup="dialog">
+              <img width="900" height="1200" class="d-block w-100 h-100 object-fit-cover" src="assets/images/project-beard-beanie.webp" alt="Close-up portrait of a man with a full dark beard, an olive beanie and chest tattoos, looking over his shoulder against a turquoise backdrop" loading="lazy">
+            </button>
             <figcaption class="gallery-card__label position-absolute">Projects</figcaption>
           </figure>
         </div>

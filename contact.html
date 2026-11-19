@@ -15,17 +15,19 @@
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
+<!-- Skip link: hidden until focused with Tab (Bootstrap visually-hidden-focusable) -->
+<a class="skip-link visually-hidden-focusable" href="#main">Skip to content</a>
   <!-- ===== Header / main navigation (components/navbar.html) ===== -->
   <div id="site-navbar"></div>
 
   <!-- ===== Main content ===== -->
-  <main class="contact-page-main position-relative">
+  <main id="main" class="contact-page-main position-relative">
     <span class="hero__plus hero__plus--top-left position-absolute" aria-hidden="true">+</span>
     <span class="hero__plus hero__plus--top-right position-absolute" aria-hidden="true">+</span>
     <span class="hero__plus hero__plus--left position-absolute" aria-hidden="true">+</span>
     <span class="hero__plus hero__plus--right position-absolute" aria-hidden="true">+</span>
     <!-- Background: noise texture; the VHS effect (assets/js/vhs-glitch-bg.js) is drawn over it -->
-    <img id="contact-bg" class="contact-page-bg position-absolute" src="assets/images/contact-background.webp" alt="" aria-hidden="true">
+    <img width="800" height="533" id="contact-bg" class="contact-page-bg position-absolute" src="assets/images/contact-background.webp" alt="" aria-hidden="true">
     <!-- Contact card: Bootstrap row. Phones: form on top, map below (order-1 / order-2).
          From lg (992px): two halves, map on the left, form on the right (order-lg-*) -->
     <div class="contact-card row gx-lg-5 gy-4">
@@ -50,7 +52,7 @@
                        type="text"
                        name="first_name"
                        autocomplete="given-name"
-                       placeholder="First Name"
+                       placeholder="First Name…"
                        required>
               </div>
               <div class="contact-field col-6">
@@ -59,7 +61,7 @@
                        type="text"
                        name="last_name"
                        autocomplete="family-name"
-                       placeholder="Last Name"
+                       placeholder="Last Name…"
                        required>
               </div>
             </div>
@@ -73,6 +75,7 @@
                      type="email"
                      name="email"
                      autocomplete="email"
+                     spellcheck="false"
                      required>
             </div>
             <div class="contact-field col-12 col-lg-6">
@@ -92,7 +95,7 @@
                       required></textarea>
           </div>
 
-          <button class="contact-submit" type="submit">Send message</button>
+          <button class="contact-submit" type="submit">Send Message</button>
         </form>
         <p class="contact-form-status"
            id="contact-form-status"
@@ -138,7 +141,7 @@
       event.preventDefault();
 
       submitButton.disabled = true;
-      submitButton.textContent = "Sending...";
+      submitButton.textContent = "Sending…";
       contactStatus.hidden = true;
       contactStatus.classList.remove("is-error");
 

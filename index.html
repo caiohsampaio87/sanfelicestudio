@@ -25,12 +25,14 @@
 
 
 <body>
+<!-- Skip link: hidden until focused with Tab (Bootstrap visually-hidden-focusable) -->
+<a class="skip-link visually-hidden-focusable" href="#main">Skip to content</a>
 
 <!-- ===== Header / main navigation (components/navbar.html) ===== -->
 <div id="site-navbar"></div>
 
 <!-- ===== Main content ===== -->
-<main>
+<main id="main">
   <!-- Hero -->
   <section class="hero position-relative" id="top" aria-labelledby="hero-title">
     <!-- background video (decorative): WebM first, MP4 for browsers without WebM.
@@ -41,7 +43,7 @@
       <source src="assets/video/homebackground.mp4" type="video/mp4">
     </video>
     <div class="hero__content position-relative">
-      <h1 class="hero__title" id="hero-title">Sanfelice Studio</h1>
+      <h1 class="hero__title" id="hero-title" translate="no">Sanfelice Studio</h1>
       <p class="hero__location">London</p>
     </div>
     <a class="hero-scroll position-absolute" href="#work" aria-label="Scroll down for portfolio"><span class="hero-scroll__text" aria-hidden="true"><span class="hero-scroll__flap" style="--i: 0">S</span><span class="hero-scroll__flap" style="--i: 1">c</span><span class="hero-scroll__flap" style="--i: 2">r</span><span class="hero-scroll__flap" style="--i: 3">o</span><span class="hero-scroll__flap" style="--i: 4">l</span><span class="hero-scroll__flap" style="--i: 5">l</span> <span class="hero-scroll__flap" style="--i: 6">d</span><span class="hero-scroll__flap" style="--i: 7">o</span><span class="hero-scroll__flap" style="--i: 8">w</span><span class="hero-scroll__flap" style="--i: 9">n</span> <span class="hero-scroll__flap" style="--i: 10">f</span><span class="hero-scroll__flap" style="--i: 11">o</span><span class="hero-scroll__flap" style="--i: 12">r</span> <span class="hero-scroll__flap" style="--i: 13">p</span><span class="hero-scroll__flap" style="--i: 14">o</span><span class="hero-scroll__flap" style="--i: 15">r</span><span class="hero-scroll__flap" style="--i: 16">t</span><span class="hero-scroll__flap" style="--i: 17">f</span><span class="hero-scroll__flap" style="--i: 18">o</span><span class="hero-scroll__flap" style="--i: 19">l</span><span class="hero-scroll__flap" style="--i: 20">i</span><span class="hero-scroll__flap" style="--i: 21">o</span></span></a>
@@ -53,7 +55,7 @@
 
   <!-- Gallery -->
   <section class="section gallery-section" id="work" aria-labelledby="selected-work-title">
-    <h2 class="gallery-title" id="selected-work-title">Selected work</h2>
+    <h2 class="gallery-title" id="selected-work-title">Selected Work</h2>
     <nav class="gallery-categories" aria-label="Gallery categories">
       <ul class="gallery-category-list">
         <li class="gallery-category-item">
@@ -77,55 +79,73 @@
     <div class="gallery-grid row row-cols-2 row-cols-md-3 g-3 g-lg-4">
       <div class="col">
         <figure class="gallery-card position-relative">
-          <img class="d-block w-100 h-100 object-fit-cover" src="assets/images/portrait-blue-green-jacket.webp" alt="Portrait of a man with short hair looking over his shoulder, wearing a textured green jacket and a silver chain, against a cobalt blue backdrop" loading="lazy">
+          <button class="gallery-card__button" type="button" aria-haspopup="dialog">
+            <img width="900" height="1200" class="d-block w-100 h-100 object-fit-cover" src="assets/images/portrait-blue-green-jacket.webp" alt="Portrait of a man with short hair looking over his shoulder, wearing a textured green jacket and a silver chain, against a cobalt blue backdrop" loading="lazy">
+          </button>
           <figcaption class="gallery-card__label position-absolute">Portraits</figcaption>
         </figure>
       </div>
       <div class="col">
         <figure class="gallery-card position-relative">
-          <img class="d-block w-100 h-100 object-fit-cover" src="assets/images/portrait-frida-inspired.webp" alt="Frida Kahlo-inspired portrait of a woman with red flowers in her braided hair, silver earrings and necklace, an embroidered blouse and a turquoise shawl, against a yellow backdrop" loading="lazy">
+          <button class="gallery-card__button" type="button" aria-haspopup="dialog">
+            <img width="900" height="1200" class="d-block w-100 h-100 object-fit-cover" src="assets/images/portrait-frida-inspired.webp" alt="Frida Kahlo-inspired portrait of a woman with red flowers in her braided hair, silver earrings and necklace, an embroidered blouse and a turquoise shawl, against a yellow backdrop" loading="lazy">
+          </button>
           <figcaption class="gallery-card__label position-absolute">Portraits</figcaption>
         </figure>
       </div>
       <div class="col">
         <figure class="gallery-card position-relative">
-          <img class="d-block w-100 h-100 object-fit-cover" src="assets/images/portrait-red-turtleneck.webp" alt="Portrait of a young man with short auburn hair and flushed cheeks, wearing a chunky red turtleneck, against a weathered teal backdrop" loading="lazy">
+          <button class="gallery-card__button" type="button" aria-haspopup="dialog">
+            <img width="899" height="1200" class="d-block w-100 h-100 object-fit-cover" src="assets/images/portrait-red-turtleneck.webp" alt="Portrait of a young man with short auburn hair and flushed cheeks, wearing a chunky red turtleneck, against a weathered teal backdrop" loading="lazy">
+          </button>
           <figcaption class="gallery-card__label position-absolute">Portraits</figcaption>
         </figure>
       </div>
       <div class="col">
         <figure class="gallery-card position-relative">
-          <img class="d-block w-100 h-100 object-fit-cover" src="assets/images/portrait-blond-earcuff.webp" alt="Close-up portrait of a young man with tousled blond hair and freckles looking back over his bare shoulder, wearing a silver ear cuff, against a soft beige backdrop" loading="lazy">
+          <button class="gallery-card__button" type="button" aria-haspopup="dialog">
+            <img width="900" height="1200" class="d-block w-100 h-100 object-fit-cover" src="assets/images/portrait-blond-earcuff.webp" alt="Close-up portrait of a young man with tousled blond hair and freckles looking back over his bare shoulder, wearing a silver ear cuff, against a soft beige backdrop" loading="lazy">
+          </button>
           <figcaption class="gallery-card__label position-absolute">Portraits</figcaption>
         </figure>
       </div>
       <div class="col">
         <figure class="gallery-card position-relative">
-          <img class="d-block w-100 h-100 object-fit-cover" src="assets/images/portrait-horns-red.webp" alt="Portrait of a man in a black hood with tall curved horns and a red jacket, hugging his arm and looking back over his shoulder, against a weathered grey backdrop" loading="lazy">
+          <button class="gallery-card__button" type="button" aria-haspopup="dialog">
+            <img width="900" height="1200" class="d-block w-100 h-100 object-fit-cover" src="assets/images/portrait-horns-red.webp" alt="Portrait of a man in a black hood with tall curved horns and a red jacket, hugging his arm and looking back over his shoulder, against a weathered grey backdrop" loading="lazy">
+          </button>
           <figcaption class="gallery-card__label position-absolute">Portraits</figcaption>
         </figure>
       </div>
       <div class="col">
         <figure class="gallery-card position-relative">
-          <img class="d-block w-100 h-100 object-fit-cover" src="assets/images/portrait-red-hair-blue.webp" alt="Portrait of a freckled young man with bright red hair looking back over his bare shoulder, against a turquoise blue backdrop" loading="lazy">
+          <button class="gallery-card__button" type="button" aria-haspopup="dialog">
+            <img width="900" height="1200" class="d-block w-100 h-100 object-fit-cover" src="assets/images/portrait-red-hair-blue.webp" alt="Portrait of a freckled young man with bright red hair looking back over his bare shoulder, against a turquoise blue backdrop" loading="lazy">
+          </button>
           <figcaption class="gallery-card__label position-absolute">Portraits</figcaption>
         </figure>
       </div>
       <div class="col">
         <figure class="gallery-card position-relative">
-          <img class="d-block w-100 h-100 object-fit-cover" src="assets/images/portrait-gothic-bonnet.webp" alt="Portrait of a woman with long wavy brown hair in a black velvet costume with a sculptural bonnet, sheer sleeves, silver ornaments and insect-like wings, against a mottled cream backdrop" loading="lazy">
+          <button class="gallery-card__button" type="button" aria-haspopup="dialog">
+            <img width="899" height="1200" class="d-block w-100 h-100 object-fit-cover" src="assets/images/portrait-gothic-bonnet.webp" alt="Portrait of a woman with long wavy brown hair in a black velvet costume with a sculptural bonnet, sheer sleeves, silver ornaments and insect-like wings, against a mottled cream backdrop" loading="lazy">
+          </button>
           <figcaption class="gallery-card__label position-absolute">Portraits</figcaption>
         </figure>
       </div>
       <div class="col">
         <figure class="gallery-card position-relative">
-          <img class="d-block w-100 h-100 object-fit-cover" src="assets/images/portrait-dark-hair-sage.webp" alt="Close-up portrait of a young man with tousled dark hair and pale blue eyes looking over his bare shoulder, a hand resting on it, against a sage green backdrop" loading="lazy">
+          <button class="gallery-card__button" type="button" aria-haspopup="dialog">
+            <img width="900" height="1200" class="d-block w-100 h-100 object-fit-cover" src="assets/images/portrait-dark-hair-sage.webp" alt="Close-up portrait of a young man with tousled dark hair and pale blue eyes looking over his bare shoulder, a hand resting on it, against a sage green backdrop" loading="lazy">
+          </button>
           <figcaption class="gallery-card__label position-absolute">Portraits</figcaption>
         </figure>
       </div>
       <div class="col">
         <figure class="gallery-card position-relative">
-          <img class="d-block w-100 h-100 object-fit-cover" src="assets/images/portrait-striped-beret.webp" alt="Black-and-white portrait of a tattooed man in a striped T-shirt and braces, touching the brim of a dark beret" loading="lazy">
+          <button class="gallery-card__button" type="button" aria-haspopup="dialog">
+            <img width="900" height="1200" class="d-block w-100 h-100 object-fit-cover" src="assets/images/portrait-striped-beret.webp" alt="Black-and-white portrait of a tattooed man in a striped T-shirt and braces, touching the brim of a dark beret" loading="lazy">
+          </button>
           <figcaption class="gallery-card__label position-absolute">Portraits</figcaption>
         </figure>
       </div>

@@ -24,7 +24,7 @@
   --ls-label: 0.32em;
   --ls-title: 0.06em;
 
-  --nav-fs: clamp(1.0625rem, 1.6vw, 1.25rem); /* 17px -> 20px */
+  --nav-fs: clamp(1rem, 1.25vw, 1.125rem); /* 16px -> 18px */
   --nav-muted: #b5b5b5; /* ~10:1 on the dark hero, passes AA */
   --nav-active: #ffffff;
 }
@@ -77,12 +77,36 @@ body {
   font-family: "Montserrat", Arial, sans-serif;
 }
 
+/* Skip link (Bootstrap visually-hidden-focusable): appears top-left when focused with Tab */
+.skip-link:focus {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 1040; /* above the fixed navbar (1030) */
+  padding: 0.6rem 1rem;
+  border-radius: 0.4rem;
+  background: var(--white);
+  color: #000;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* Taps on links and buttons react at once (no double-tap zoom delay on phones) */
+a,
+button,
+input,
+textarea,
+summary {
+  touch-action: manipulation;
+}
+
 /* Header and navigation
    Position comes from Bootstrap's fixed-top (position: fixed; top: 0; z-index: 1030).
    At the top of the page it is transparent over the hero; once the page scrolls,
    components.js adds .is-scrolled and it gets a dark background and less padding. */
 .header {
   padding-block: clamp(1rem, 4vw, 2rem); /* sides come from .site-container */
+  padding-inline: env(safe-area-inset-left) env(safe-area-inset-right); /* clear the iPhone notch in landscape */
   background: transparent;
   transition: background-color 0.3s ease, padding 0.3s ease, box-shadow 0.3s ease;
 }
@@ -113,7 +137,7 @@ html {
 }
 
 .site-nav .nav-links {
-  gap: 5rem;
+  gap: 3rem;
 }
 
 /* tablets: tighter links. Must stay before the smaller phone breakpoints below,
@@ -127,6 +151,8 @@ html {
 .site-nav a {
   color: var(--nav-muted);
   font-size: var(--nav-fs);
+  font-weight: 500;
+  letter-spacing: 0.04em;
   text-decoration: none;
   white-space: nowrap;
   transition: color 0.2s ease, opacity 0.2s ease;
@@ -162,20 +188,12 @@ html {
   color: var(--nav-active);
 }
 
-/* active page: bold, 30% larger, thin underline */
+/* active page: white + thin underline only. Same size and weight as the other links,
+   so the menu doesn't change width or jump from page to page */
 .site-nav .nav-links a[aria-current] {
-  font-size: calc(var(--nav-fs) * 1.3);
-  font-weight: 700;
   text-decoration: underline;
   text-decoration-thickness: 1px;
-  text-underline-offset: 0.45em;
-}
-
-/* phones: smaller bump so logo, links and Instagram fit on one row */
-@media (max-width: 40rem) {
-  .site-nav .nav-links a[aria-current] {
-    font-size: calc(var(--nav-fs) * 1.1);
-  }
+  text-underline-offset: 0.5em;
 }
 
 .site-nav a:focus-visible {
@@ -189,7 +207,7 @@ html {
 }
 
 .site-nav__instagram-icon {
-  font-size: 1.35rem;
+  font-size: 1.15em; /* follows the nav text size, a touch larger for optical balance */
 }
 
 /* Home hero */
@@ -231,21 +249,28 @@ html {
   max-width: 100%;
 }
 
+/* Wide letter-spacing also adds space after the last letter, which pushes centred text
+   to the left. padding-inline-start with the same value puts it back on the optical centre. */
 .hero__title {
+  --track: clamp(0.08em, 1.2vw, 0.2em);
   margin: 0;
+  padding-inline-start: var(--track);
   font-size: var(--fs-display);
   font-weight: 800;
-  letter-spacing: clamp(0.08em, 1.2vw, 0.2em);
+  letter-spacing: var(--track);
   line-height: 1.05;
   text-transform: uppercase;
   text-wrap: balance;
 }
 
+/* subtitle: small and airy so it supports the title instead of competing with it */
 .hero__location {
-  margin: 0.45rem 0 0;
-  font-size: clamp(1rem, 2.2vw, 1.5rem); /* 16px -> 24px */
-  font-weight: 600;
-  letter-spacing: 0.3em;
+  --track: 0.4em;
+  margin: clamp(0.75rem, 1.5vw, 1.25rem) 0 0;
+  padding-inline-start: var(--track);
+  font-size: clamp(1rem, 1.5vw, 1.25rem); /* 16px -> 20px */
+  font-weight: 500;
+  letter-spacing: var(--track);
   text-transform: uppercase;
 }
 
@@ -259,6 +284,7 @@ html {
   font-weight: 500;
   font-size: clamp(0.75rem, 1.4vw, 1rem); /* 12px -> 16px */
   letter-spacing: 0.25em;
+  padding-inline-start: 0.25em; /* optical centring, see .hero__title */
   text-decoration: none;
   text-transform: lowercase;
   white-space: nowrap;
@@ -447,32 +473,51 @@ html.snap { scroll-snap-type: y proximity; }
 /* Gallery photo card. Layout comes from Bootstrap: the grid (row / row-cols-* / g-* / col)
    in the HTML, position-relative on the card, and d-block w-100 h-100 object-fit-cover on the photo.
    Only the look is defined here. */
+/* The photo is the frame: no border, almost square corners */
 .gallery-card {
   aspect-ratio: 3 / 4;
   margin: 0;
-  border: 1px solid #858585;
-  border-radius: 1.25rem;
+  border-radius: 2px;
   overflow: hidden;
-  transition: border-color 0.25s ease;
+  background: #111; /* placeholder tone while the photo loads */
 }
 
-.gallery-card:hover { border-color: var(--white); }
+/* hover: a slow, slight zoom into the photo (motion allowed only) */
+@media (prefers-reduced-motion: no-preference) {
+  .gallery-card img {
+    transition: transform 0.6s cubic-bezier(0.2, 0, 0, 1);
+  }
 
-/* Gallery cards open the photo lightbox */
-.gallery-card[role="button"] {
+  .gallery-card:hover img {
+    transform: scale(1.03);
+  }
+}
+
+/* Gallery photos open the lightbox: each photo is inside a real <button> */
+.gallery-card__button {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
   cursor: zoom-in;
 }
 
-.gallery-card:focus-visible {
-  border-color: var(--white);
+.gallery-card__button:focus-visible {
   outline: 2px solid var(--white);
-  outline-offset: 3px;
+  outline-offset: -4px; /* inside the card, so the rounded corners don't clip it */
 }
 
 /* Photo lightbox (Bootstrap modal): photo centred, copyright line below */
 .modal-backdrop {
   --bs-backdrop-bg: #000;
   --bs-backdrop-opacity: 0.95;
+}
+
+/* Bootstrap modal: scrolling inside the lightbox doesn't scroll the page behind it */
+.lightbox {
+  overscroll-behavior: contain;
 }
 
 .lightbox__dialog {
@@ -510,7 +555,7 @@ html.snap { scroll-snap-type: y proximity; }
   height: auto;
   max-height: calc(100svh - 11rem); /* room for the close button, the caption and the modal margins */
   margin-inline: auto;
-  border-radius: 0.5rem;
+  border-radius: 2px; /* photos: same near-square corners as the gallery */
 }
 
 .lightbox__caption {
@@ -522,6 +567,7 @@ html.snap { scroll-snap-type: y proximity; }
 
 /* Section title above the gallery */
 .gallery-title {
+  text-wrap: balance; /* no single word left alone on the last line */
   margin: 0 0 0.25rem;
   color: var(--nav-muted);
   font-size: clamp(0.75rem, 1.4vw, 1rem); /* 12px -> 16px */
@@ -675,7 +721,8 @@ html.snap { scroll-snap-type: y proximity; }
 }
 
 .footer-substack__form button:focus-visible {
-  outline: none;
+  outline: 2px solid var(--nav-active); /* visible keyboard focus, not just the hover colour */
+  outline-offset: 2px;
 }
 
 .footer-substack__form button:disabled {
@@ -727,6 +774,7 @@ html.snap { scroll-snap-type: y proximity; }
 .footer-brand img {
   display: block;
   width: auto;
+  height: auto; /* scales from the width/height attributes, capped by max-height */
   max-width: 100%;
   max-height: clamp(3.5rem, 5.6vw, 5.25rem);
 }
@@ -945,6 +993,7 @@ html.snap { scroll-snap-type: y proximity; }
 }
 
 .contact-form-title {
+  text-wrap: balance; /* no single word left alone on the last line */
   display: flex;
   align-items: center;
   gap: 0.2em;
@@ -1115,6 +1164,7 @@ html.snap { scroll-snap-type: y proximity; }
 .about-hero__media img {
   display: block;
   width: 100%;
+  height: auto; /* aspect-ratio wins over the height="" attribute */
   aspect-ratio: 4 / 5;
   max-height: 88svh;
   object-fit: cover;
@@ -1157,6 +1207,7 @@ html.snap { scroll-snap-type: y proximity; }
 }
 
 .about-title {
+  text-wrap: balance; /* no single word left alone on the last line */
   display: flex;
   align-items: center;
   gap: 0.3em;
@@ -1401,7 +1452,7 @@ html.snap { scroll-snap-type: y proximity; }
   width: 100%;
   height: auto; /* lets aspect-ratio win over the height="" attribute in the HTML */
   aspect-ratio: 4 / 3;
-  border-radius: 0.5rem;
+  border-radius: 2px;
   object-fit: cover;
 }
 
@@ -1527,7 +1578,7 @@ html.snap { scroll-snap-type: y proximity; }
   }
 
   .hero__title {
-    letter-spacing: 0.04em;
+    --track: 0.04em;
   }
 }
 

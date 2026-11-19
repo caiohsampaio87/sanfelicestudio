@@ -15,16 +15,18 @@
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
+<!-- Skip link: hidden until focused with Tab (Bootstrap visually-hidden-focusable) -->
+<a class="skip-link visually-hidden-focusable" href="#main">Skip to content</a>
   <!-- ===== Header / main navigation (components/navbar.html) ===== -->
   <div id="site-navbar"></div>
   <!-- ===== Main content ===== -->
-  <main class="about-page">
+  <main id="main" class="about-page">
     <!-- About: artist bio -->
     <section class="about-hero position-relative" id="top" aria-labelledby="about-title">
       <!-- phones/tablets: portrait crop centred on the artist; desktop: full studio shot behind the text -->
       <picture class="about-hero__media">
         <source media="(min-width: 64.0625rem)" srcset="assets/images/caiosanfelice.webp">
-        <img src="assets/images/artist-studio-mobile.webp" alt="Caio Sanfelice sitting in his studio, holding a camera" fetchpriority="high">
+        <img width="960" height="1200" src="assets/images/artist-studio-mobile.webp" alt="Caio Sanfelice sitting in his studio, holding a camera" fetchpriority="high">
       </picture>
       <span class="about-hero__plus about-hero__plus--left position-absolute" aria-hidden="true">+</span>
       <span class="about-hero__plus about-hero__plus--right position-absolute" aria-hidden="true">+</span>
@@ -33,11 +35,11 @@
           <span aria-hidden="true">✱</span> THE ARTIST
         </h1>
         <p class="about-lead">
-          <em>Caio Sanfelice</em> is a photographer and image-maker. An MA graduate of the <strong>London College of Communication</strong>, his work has been exhibited and published internationally, including <strong>Dazed</strong> and <strong>Vogue Italia</strong>, and is held in the institution's permanent collection.
+          <em>Caio Sanfelice</em> is a photographer and image-maker. An MA graduate of the <strong>London College of Communication</strong>, his work has been exhibited and published internationally, including <strong>Dazed</strong> and <strong>Vogue Italia</strong>, and is held in the institution’s permanent collection.
         </p>
         <p class="about-body">
           His practice spans photography, creative direction and set production. The disciplines are not treated as separate crafts: photography, fashion, painting and set design operate within a single practice, in which the artist is present at every stage — conception, construction and execution. The resulting image is not a record of a found scene; it is the final object of a constructed one.
-          In 2026, Caio joins UAL's Creative Business Accelerator to develop Caio Sanfelice Studio as a multidisciplinary house for exhibition, publication and collaboration.
+          In 2026, Caio joins UAL’s Creative Business Accelerator to develop Caio Sanfelice Studio as a multidisciplinary house for exhibition, publication and collaboration.
         </p>
         <blockquote class="about-quote">
           <p>My work goes beyond portraits; it explores <strong>art, identity</strong> and <strong>experience</strong>.</p>
@@ -57,9 +59,9 @@
           </h2>
           <div class="service-card__details" id="service-photography" inert>
             <div class="service-card__details-inner">
-              <a class="service-card__link" href="index.html#work">See more</a>
+              <a class="service-card__link" href="index.html#work">See More</a>
               <p class="service-desc">Fashion, personal and editorial shoots; corporate and portfolio portraits; product photography; album covers. Delivered as high-resolution retouched files. Sessions available in studio or on location, with lighting and creative direction handled in-house.</p>
-              <img src="assets/images/fashion.webp" alt="Fashion Editorial - Red dress" loading="lazy">
+              <img width="1402" height="1106" src="assets/images/fashion.webp" alt="Fashion Editorial - Red dress" loading="lazy">
             </div>
           </div>
         </article>
@@ -72,9 +74,9 @@
           </h2>
           <div class="service-card__details" id="service-beauty" inert>
             <div class="service-card__details-inner">
-              <a class="service-card__link" href="index.html#work">See more</a>
+              <a class="service-card__link" href="index.html#work">See More</a>
               <p class="service-desc">Hair and makeup for photographic and fashion productions: natural, editorial, artistic and scenic makeup. Includes character continuity across a full shoot day, plus costume and cosplay construction when the production requires it. On-set touch-ups included.</p>
-              <img src="assets/images/makeup.webp" alt="MUA working" loading="lazy">
+              <img width="829" height="591" src="assets/images/makeup.webp" alt="MUA working" loading="lazy">
             </div>
           </div>
         </article>
@@ -87,9 +89,9 @@
           </h2>
           <div class="service-card__details" id="service-set-production" inert>
             <div class="service-card__details-inner">
-              <a class="service-card__link" href="index.html#work">See more</a>
-              <p class="service-desc">Design and construction of photographic backgrounds and sets: flats, painted backdrops, textured panels and modular pieces. Built to the shoot's lighting plan and colour palette, assembled and struck on site. Transportable systems available for recurring productions.</p>
-              <img src="assets/images/set-production.webp" alt="Alice in Wonderland 50th anniversary scenario exhibition" loading="lazy">
+              <a class="service-card__link" href="index.html#work">See More</a>
+              <p class="service-desc">Design and construction of photographic backgrounds and sets: flats, painted backdrops, textured panels and modular pieces. Built to the shoot’s lighting plan and colour palette, assembled and struck on site. Transportable systems available for recurring productions.</p>
+              <img width="1024" height="576" src="assets/images/set-production.webp" alt="Alice in Wonderland 50th anniversary scenario exhibition" loading="lazy">
             </div>
           </div>
         </article>
@@ -102,7 +104,7 @@
           </h2>
           <div class="service-card__details" id="service-stage-screen" inert>
             <div class="service-card__details-inner">
-              <a class="service-card__link" href="index.html#work">See more</a>
+              <a class="service-card__link" href="index.html#work">See More</a>
               <p class="service-desc">Costume, scenery and prop production for theatre, musicals and television. Scope covers design, material sourcing, building and fittings — with versions engineered for stage durability and camera-specific finishes (textures and colours tuned for how they read on screen).</p>
               <img src="assets/images/set-and-screen.webp" alt="Theatre set model showing a multi-level interior with furniture and staircase on a black stage" width="1000" height="696" loading="lazy">
             </div>
