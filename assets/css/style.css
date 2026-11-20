@@ -573,6 +573,7 @@ html.snap { scroll-snap-type: y proximity; }
 
 /* Bootstrap modal: scrolling inside the lightbox doesn't scroll the page behind it */
 .lightbox {
+  --bs-modal-margin: 1rem; /* thin margins: the photo gets as much of the screen as possible */
   overscroll-behavior: contain;
 }
 
@@ -608,9 +609,8 @@ html.snap { scroll-snap-type: y proximity; }
   display: block;
   width: auto;
   max-width: 100%;
-  height: 70svh; /* every photo opens at 70% of the screen height */
-  max-height: calc(100svh - 11rem); /* small screens: still room for the close button and the caption */
-  object-fit: contain; /* narrow screens: the whole photo still fits */
+  height: auto;
+  max-height: calc(100svh - 7.5rem); /* as tall as the screen allows, with room for the close button and the caption */
   margin-inline: auto;
   border-radius: 2px; /* photos: same near-square corners as the gallery */
 }
