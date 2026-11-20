@@ -148,6 +148,7 @@ html {
 }
 
 .site-nav a {
+  text-transform: lowercase; /* matches the lowercase script logo; the HTML keeps "The Artist" for screen readers */
   color: var(--nav-muted);
   font-size: var(--nav-fs);
   font-weight: 500;
@@ -337,23 +338,30 @@ html {
   }
 }
 
-/* Pause / play button for the background video: small, bottom-right, above the corner "+"
-   (position: absolute from Bootstrap's position-absolute class in the HTML) */
+/* Pause / play button for the background video, styled like a VCR on-screen display:
+   it shows the action: "PAUSE ❚❚" while the video plays, "PLAY ▶" once paused.
+   Bottom-right, above the corner "+" (position: absolute from Bootstrap's position-absolute class) */
 .hero-pause {
   right: var(--pad);
   bottom: 3.5rem;
   z-index: 2;
-  display: grid;
-  place-items: center;
-  width: 2.75rem; /* 44px touch target */
-  height: 2.75rem;
-  padding: 0;
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  border-radius: 50%;
-  background: rgba(0, 0, 0, 0.35);
+  display: inline-flex;
+  align-items: center;
+  min-width: 2.75rem; /* 44px touch target */
+  min-height: 2.75rem;
+  padding: 0 0.25rem;
+  border: 0;
+  background: none;
   color: var(--white);
   cursor: pointer;
-  transition: background-color 0.2s ease, border-color 0.2s ease;
+  font-family: "Courier New", ui-monospace, Menlo, monospace;
+  font-size: clamp(0.95rem, 1.4vw, 1.15rem);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.55), 1px 0 0 rgba(255, 0, 80, 0.45), -1px 0 0 rgba(0, 200, 255, 0.45);
+  opacity: 0.85;
+  transition: opacity 0.2s ease;
 }
 
 .hero-pause[hidden] {
@@ -361,8 +369,7 @@ html {
 }
 
 .hero-pause:hover {
-  border-color: var(--white);
-  background: rgba(0, 0, 0, 0.6);
+  opacity: 1;
 }
 
 .hero-pause:focus-visible {
@@ -370,20 +377,13 @@ html {
   outline-offset: 3px;
 }
 
-.hero-pause__icon {
-  width: 1rem;
-  height: 1rem;
-  fill: currentColor;
-}
-
-/* shows "pause" while playing, "play" once paused */
-.hero-pause__icon--play,
-.hero-pause[aria-pressed="true"] .hero-pause__icon--pause {
+.hero-pause__label--paused,
+.hero-pause[aria-pressed="true"] .hero-pause__label--playing {
   display: none;
 }
 
-.hero-pause[aria-pressed="true"] .hero-pause__icon--play {
-  display: block;
+.hero-pause[aria-pressed="true"] .hero-pause__label--paused {
+  display: inline;
 }
 
 .hero__plus {

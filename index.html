@@ -46,10 +46,10 @@
       <h1 class="hero__title" id="hero-title" translate="no">Sanfelice Studio</h1>
       <p class="hero__location">London</p>
     </div>
-    <!-- Pause / play the background video (shown by hero-video.js when motion is allowed) -->
+    <!-- Pause / play the background video, styled like a VCR on-screen display (shown by hero-video.js when motion is allowed) -->
     <button class="hero-pause position-absolute" type="button" aria-pressed="false" aria-label="Pause background video" hidden>
-      <svg class="hero-pause__icon hero-pause__icon--pause" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
-      <svg class="hero-pause__icon hero-pause__icon--play" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.2-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg>
+      <span class="hero-pause__label hero-pause__label--playing" aria-hidden="true">PAUSE &#10074;&#10074;</span>
+      <span class="hero-pause__label hero-pause__label--paused" aria-hidden="true">PLAY &#9654;&#xFE0E;</span>
     </button>
     <a class="hero-scroll position-absolute" href="#work" aria-label="Scroll down for portfolio"><span class="hero-scroll__text" aria-hidden="true"><span class="hero-scroll__flap" style="--i: 0">S</span><span class="hero-scroll__flap" style="--i: 1">c</span><span class="hero-scroll__flap" style="--i: 2">r</span><span class="hero-scroll__flap" style="--i: 3">o</span><span class="hero-scroll__flap" style="--i: 4">l</span><span class="hero-scroll__flap" style="--i: 5">l</span> <span class="hero-scroll__flap" style="--i: 6">d</span><span class="hero-scroll__flap" style="--i: 7">o</span><span class="hero-scroll__flap" style="--i: 8">w</span><span class="hero-scroll__flap" style="--i: 9">n</span> <span class="hero-scroll__flap" style="--i: 10">f</span><span class="hero-scroll__flap" style="--i: 11">o</span><span class="hero-scroll__flap" style="--i: 12">r</span> <span class="hero-scroll__flap" style="--i: 13">p</span><span class="hero-scroll__flap" style="--i: 14">o</span><span class="hero-scroll__flap" style="--i: 15">r</span><span class="hero-scroll__flap" style="--i: 16">t</span><span class="hero-scroll__flap" style="--i: 17">f</span><span class="hero-scroll__flap" style="--i: 18">o</span><span class="hero-scroll__flap" style="--i: 19">l</span><span class="hero-scroll__flap" style="--i: 20">i</span><span class="hero-scroll__flap" style="--i: 21">o</span></span></a>
     <span class="hero__plus hero__plus--top-left position-absolute" aria-hidden="true">+</span>
