@@ -252,9 +252,14 @@
 <!-- Background: VHS + glitch + analog noise effect (WebGL) over the texture -->
 <script src="assets/js/vhs-glitch-bg.js"></script>
 <script>
-  // Only when the user allows motion; with "reduce motion" on, the still texture stays
+  // Only when the user allows motion; with "reduce motion" on, the still texture stays.
+  // Starts after the page has loaded and the browser is idle, so it doesn't slow the first paint.
   if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    VhsGlitch("#contact-bg");
+    window.addEventListener("load", () => {
+      const start = () => VhsGlitch("#contact-bg");
+      if ("requestIdleCallback" in window) requestIdleCallback(start, { timeout: 2000 });
+      else setTimeout(start, 300);
+    }, { once: true });
   }
 </script>
 </body>

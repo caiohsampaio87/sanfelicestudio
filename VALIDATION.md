@@ -1,24 +1,33 @@
 # Validation — Sanfelice Studio
 
-## HTML
-- Validator: W3C Markup Validation Service (https://validator.w3.org)
-- Files checked: `index.html`, `aboutme.html`, `portraits.html`, `editorials.html`, `projects.html`, `contact.html`, `components/navbar.html`, `components/footer.html`
-- Result: No errors, no warnings (see screenshots provided by the author).
+Last checked: 20 November 2026.
 
-## CSS
-- Validator: Stylelint (demo with project `.stylelintrc` exceptions applied)
+## HTML — W3C Markup Validation Service
+
+- Validator: W3C Nu HTML Checker (https://validator.w3.org/nu/)
+- Files checked: `index.html`, `aboutme.html`, `portraits.html`, `editorials.html`, `projects.html`, `contact.html`
+- Shared components: `components/navbar.html` and `components/footer.html` are HTML fragments loaded into every page by `assets/js/components.js`, so they were validated inside a full HTML document (as they appear on the pages).
+- Result: **0 errors, 0 warnings** on every file.
+
+## CSS — W3C CSS Validation Service (Jigsaw)
+
+- Validator: W3C CSS Validation Service (https://jigsaw.w3.org/css-validator/), profile CSS level 3 + SVG
 - File checked: `assets/css/style.css`
-- Result: 0 problems (see screenshots provided by the author).
+- Result: **0 errors, 0 warnings**.
+- Bootstrap 5.3.9 and Font Awesome are loaded from CDNs and are not part of the custom code, so they were not validated.
 
-### W3C CSS Validator (additional check)
-- Validator: W3C CSS Validation Service
-- File checked: `assets/css/style.css`
-- Reported errors: 6, all false positives from modern CSS features not yet recognized by the validator:
-  - `container` / `@container` (container queries) — lines 886, 917, 1132
-  - `animation-timeline: view()` — lines 1674, 1678
-  - `animation-range` — line 1679
-- These features are supported by current browsers (Chrome/Edge/Safari); the site renders correctly. The validator is outdated for these properties.
+### Changes made to pass the validator
 
-## Notes
-- W3C CSS validator was not used (considered outdated for this project).
-- Screenshots of both validations are kept in the project records.
+A first run reported 6 errors and 1 warning. They came from modern CSS features the validator does not recognise yet, so the same results were rebuilt with validated code:
+
+- Container queries (`container`, `@container`) on the Contact page → replaced with media queries (`@media`).
+- Scroll-driven animation (`animation-timeline: view()`, `animation-range`) for the gallery photos → replaced with an `IntersectionObserver` in `assets/js/components.js` plus CSS transitions (also works in Firefox now).
+- Warning: vendor prefix `-webkit-backdrop-filter` → removed; current browsers support `backdrop-filter`.
+
+## Lighthouse
+
+- To do: run Lighthouse (Chrome DevTools → Lighthouse) on the deployed site and record the Performance, Accessibility, Best Practices and SEO scores here.
+
+## Screenshots
+
+Screenshots of the passed HTML, CSS and Lighthouse checks are included in the README.
