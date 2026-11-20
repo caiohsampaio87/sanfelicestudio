@@ -177,7 +177,7 @@ All six pages pass with **no errors or warnings**. The shared navbar and footer 
 
 ### Lighthouse
 
-Every page scores **100** in Accessibility, Best Practices and SEO, on desktop and mobile. Performance is 92 to 99 on every page except Editorials on mobile (80); the full table is in [VALIDATION.md](VALIDATION.md).
+Every page scores **100** in Accessibility, Best Practices and SEO, on desktop and mobile. Performance is 92 to 99 on every page, on desktop and mobile; the full table is in [VALIDATION.md](VALIDATION.md).
 
 <img src="readme-images/lighthouse-mobile.png" alt="Lighthouse report for the Home page: Performance 98, Accessibility 100, Best Practices 100, SEO 100" width="420">
 
@@ -206,10 +206,12 @@ Every page scores **100** in Accessibility, Best Practices and SEO, on desktop a
 | 6 errors in the W3C CSS validator | Modern features the validator does not recognise yet (container queries, scroll-driven animation) | Rewritten with media queries and an `IntersectionObserver` |
 | Two `alt` texts were cut short | Unescaped quote marks (`"`) inside the attribute | Written as `&quot;` |
 | Lighthouse Performance 66 on desktop | The WebGL effect was set up while the page was still loading | The effect starts after the page has loaded |
+| One Projects photo did not appear | The new photo was saved as `.png`, but the page asked for `.webp` | Converted to WebP with the expected file name |
+| New high-resolution gallery photos added about 26 MB to the pages | The full-size exports were used directly in the gallery | Each photo now has a 720 px thumbnail for the gallery and a larger `-full` version (max 1800 px) that loads only when the photo is opened |
+| Two photos showed a white border in the gallery | The border is part of the image file | Cropped from the gallery thumbnail only; the full photo with its border still opens in the lightbox |
 
 **Known issues**
 
-- Editorials scores 80 for Performance on mobile because some magazine cover images are larger than needed; the gallery images are being re-exported at smaller sizes.
 - The site must be opened through a web server (Live Server locally, or the live link). Opened straight from the file system (`file://`), the browser blocks loading the navbar and footer and the WebGL effect.
 
 ## Deployment

@@ -31,10 +31,10 @@ A first run reported 6 errors and 1 warning. They came from modern CSS features 
 
 | Page | Desktop: Performance | Mobile: Performance | Accessibility | Best Practices | SEO |
 |---|---|---|---|---|---|
-| Home | 99 | 94 | 100 | 100 | 100 |
+| Home | 99 | 97 | 100 | 100 | 100 |
 | The Artist (About) | 97 | 92 | 100 | 100 | 100 |
 | Portraits | 99 | 95 | 100 | 100 | 100 |
-| Editorials | 99 | 80 | 100 | 100 | 100 |
+| Editorials | 99 | 95 | 100 | 100 | 100 |
 | Projects | 99 | 95 | 100 | 100 | 100 |
 | Contact | 99 | 95 | 100 | 100 | 100 |
 
@@ -42,7 +42,7 @@ A first run reported 6 errors and 1 warning. They came from modern CSS features 
 
 - Home desktop Performance was 66: the WebGL VHS effect was set up while the page was still loading (620 ms of blocking time). It now starts after the page has loaded and the browser is idle → 99.
 - About SEO was 92: the four "See More" links had the same text. Each one now has visually hidden text naming its service (e.g. "See More photography work") → 100.
-- Editorials mobile Performance (80) is limited by the size of the magazine cover images; the gallery images are being re-exported at smaller sizes.
+- Gallery photos: new high-resolution exports were replaced with 720 px thumbnails for the gallery, with a larger version loaded only when a photo is opened → Home mobile 94 → 97, Editorials mobile 80 → 95.
 
 ## Screenshots
 
