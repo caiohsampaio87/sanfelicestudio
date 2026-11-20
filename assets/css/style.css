@@ -578,7 +578,7 @@ html.snap { scroll-snap-type: y proximity; }
 
 .lightbox__dialog {
   width: fit-content;
-  max-width: min(92vw, 60rem);
+  max-width: 92vw;
   margin-inline: auto;
 }
 
@@ -608,8 +608,9 @@ html.snap { scroll-snap-type: y proximity; }
   display: block;
   width: auto;
   max-width: 100%;
-  height: auto;
-  max-height: calc(100svh - 11rem); /* room for the close button, the caption and the modal margins */
+  height: 70svh; /* every photo opens at 70% of the screen height */
+  max-height: calc(100svh - 11rem); /* small screens: still room for the close button and the caption */
+  object-fit: contain; /* narrow screens: the whole photo still fits */
   margin-inline: auto;
   border-radius: 2px; /* photos: same near-square corners as the gallery */
 }

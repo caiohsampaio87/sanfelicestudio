@@ -77,7 +77,8 @@ function initLightbox() {
   buttons.forEach((button) => {
     button.addEventListener("click", () => {
       const img = button.querySelector("img");
-      modalImg.src = img.currentSrc || img.src;
+      // the gallery shows a small, cropped version; the viewer opens the full photo (data-full)
+      modalImg.src = img.dataset.full || img.currentSrc || img.src;
       modalImg.alt = img.alt;
       lastButton = button;
       modal.show();
