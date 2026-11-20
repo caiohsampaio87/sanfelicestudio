@@ -226,7 +226,7 @@ The site is a static website (HTML, CSS, JavaScript, images and video, no build 
 
 **Run it locally**
 
-1. Clone the repository: `git clone https://github.com/caiohsampaio87/SANFELICESTUDIO.git`
+1. Clone the repository: `git clone https://github.com/caiohsampaio87/sanfelicestudio.git`
 2. Open the folder in VS Code and start **Live Server** on `index.html`. A local server is needed because the navbar and footer are loaded with `fetch()`.
 
 ## Credits
