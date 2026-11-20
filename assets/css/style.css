@@ -386,6 +386,13 @@ html {
   display: inline;
 }
 
+/* Phones: "scroll down for portfolio" spans most of the width, so the button sits above it */
+@media (max-width: 575.98px) {
+  .hero-pause {
+    bottom: 6.5rem;
+  }
+}
+
 .hero__plus {
   /* position: absolute comes from Bootstrap's position-absolute class in the HTML */
   inset-block-end: 1.25rem;
