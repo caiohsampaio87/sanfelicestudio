@@ -111,6 +111,14 @@ The site is dark and editorial, so the photography carries the colour. All colou
 - Times New Roman italic for highlighted words in the biography and the quote.
 - Font sizes use `clamp()`, so text scales smoothly between phone and desktop.
 
+### Wireframes
+
+The layout was planned with wireframes before coding: the hero with the studio name, the floating navbar, the three-column galleries (Portraits, Editorials, Projects), the expandable service cards on The Artist page, the Contact card with the "How did you hear about us?" pop-up, and the shared footer.
+
+| Home and galleries | The Artist | Contact |
+|---|---|---|
+| <img src="readme-images/wireframe-home-gallery.png" alt="Wireframe of the Home page hero, floating navbar, gallery pages and footer" width="260"> | <img src="readme-images/wireframe-about.png" alt="Wireframe of The Artist page with biography, service cards and footer" width="260"> | <img src="readme-images/wireframe-contact.png" alt="Wireframe of the Contact page with map, form, pop-up and footer" width="360"> |
+
 ## Screenshots
 
 All pages on desktop (1440 px wide) and mobile (390 px wide), taken from the live site.
