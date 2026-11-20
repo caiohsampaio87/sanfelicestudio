@@ -9,17 +9,18 @@ Portfolio website for Sanfelice Studio, the London-based practice of photographe
 ## Table of Contents
 
 1. [Purpose](#purpose)
-2. [Pages](#pages)
-3. [Features](#features)
-4. [Technologies](#technologies)
-5. [Design](#design)
-6. [Screenshots](#screenshots)
-7. [Testing](#testing)
-8. [Bugs and Fixes](#bugs-and-fixes)
-9. [Deployment](#deployment)
-10. [Credits](#credits)
-11. [Use of AI](#use-of-ai)
-12. [Future Updates](#future-updates)
+2. [User Stories](#user-stories)
+3. [Pages](#pages)
+4. [Features](#features)
+5. [Technologies](#technologies)
+6. [Design](#design)
+7. [Screenshots](#screenshots)
+8. [Testing](#testing)
+9. [Bugs and Fixes](#bugs-and-fixes)
+10. [Deployment](#deployment)
+11. [Credits](#credits)
+12. [Use of AI](#use-of-ai)
+13. [Future Updates](#future-updates)
 
 ## Purpose
 
@@ -29,6 +30,32 @@ It is built for:
 
 - **Clients and agencies** looking for a photographer, make-up artist or set designer: they can browse the work by category, read about the services and send an enquiry.
 - **Editors and collaborators**: published covers (Vogue Italia PhotoVogue, GMARO, Boys Magazine and others) show the work's track record at a glance.
+
+## User Stories
+
+Written at the planning stage, before coding. The right-hand column shows how the finished site meets each one.
+
+### Visitor (brand, model, collaborator)
+
+| User story | How the site delivers it |
+|---|---|
+| As a visitor arriving via referral, when I open the site I want a striking full-screen image with the studio name, so I grasp the level of the work within 2 seconds. | Full-screen hero with the studio name over a background video; the text appears in under 1 second (Lighthouse First Contentful Paint). |
+| As a visitor, I want to see a curated selection of the 6–8 best pieces on the Home page, so I get a strong first impression without scrolling much. | "Selected work" grid right below the hero, reached with one scroll or the "scroll down for portfolio" link (9 pieces, to fill the 3-column grid). |
+| As a brand owner, I want to filter the gallery by category (Fashion · Beauty · Still Life · Portraits), so I can find examples similar to my project. | Category menu above every gallery. The final categories became **Portraits · Editorials · Projects**, each on its own page, to match the work published so far. |
+| As a visitor, I want each photo displayed large and clean (no visual clutter), so I can genuinely assess the image quality. | Clicking a photo opens it full size in a lightbox, on a near-black background with only the copyright line. |
+| As a visitor, I want a Services page showing what he does (photoshoot, beauty, set design, creative direction), so I understand the scope beyond the camera. | The services (Photography, Beauty, Set Production, Stage & Screen) are cards on **The Artist** page, each with a photo and a description, right below the biography. |
+| As a visitor, I want to know who the photographer is (portrait + story + London base), so I can trust the person behind the work. | The Artist page: full-width portrait, biography (education, publications, London studio) and a quote. |
+| As a visitor, I want clear links to Instagram and Substack, so I can follow his ongoing work. | Instagram icon in the navbar on every page; Substack newsletter sign-up in the footer on every page. |
+| As a visitor, I want contact (WhatsApp/email) always one click away, so I can respond to the referral on the spot. | The navbar stays on screen while scrolling, with Contact always visible; the Contact page has WhatsApp, email, the form and the map. The footer's "Enquiries »" link also leads there. |
+| As a visitor on mobile, I want every page to work well on a small screen, because the site almost always arrives via a WhatsApp/DM link. | Mobile-first responsive layout with the Bootstrap grid, tested from 360 px; Lighthouse mobile scores 92–95 for Performance on most pages and 100 for Accessibility. |
+| As a visitor, I want the site to load fast (optimized images), so I don't give up before the second photo. | WebP images, lazy loading below the fold, and the video effect starts only after the page has loaded. Editorials on mobile (80) is the one page still to optimise. |
+
+### Photographer (site owner)
+
+| User story | How the site delivers it |
+|---|---|
+| As the photographer, I want to swap/add photos in the gallery in a simple way (replacing files), so I can keep the portfolio updated without touching code. | Gallery photos are plain files in `assets/images/`; replacing a file with one of the same name updates the site on the next push (only the `width`/`height` in the HTML need updating if the proportions change). |
+| As the photographer, I want the site's look to reflect my visual identity (palette, typography, spacing), so the site feels like part of my work, not a template. | Custom dark palette and type defined as CSS variables, the script logo, the VHS video effect and the split-flap details; Bootstrap is used for layout only, not for its default look. |
 
 ## Pages
 
