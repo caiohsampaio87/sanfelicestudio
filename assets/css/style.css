@@ -188,12 +188,20 @@ html {
   color: var(--nav-active);
 }
 
-/* active page: white + thin underline only. Same size and weight as the other links,
-   so the menu doesn't change width or jump from page to page */
+/* active page: bold, 30% larger, thin underline */
 .site-nav .nav-links a[aria-current] {
+  font-size: calc(var(--nav-fs) * 1.3);
+  font-weight: 700;
   text-decoration: underline;
   text-decoration-thickness: 1px;
-  text-underline-offset: 0.5em;
+  text-underline-offset: 0.45em;
+}
+
+/* phones: smaller bump so logo, links and Instagram fit on one row */
+@media (max-width: 40rem) {
+  .site-nav .nav-links a[aria-current] {
+    font-size: calc(var(--nav-fs) * 1.1);
+  }
 }
 
 .site-nav a:focus-visible {

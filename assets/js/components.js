@@ -2,13 +2,13 @@
 // marks the current page in the navbar and wires up the newsletter form.
 // Needs a web server (e.g. Live Server) — fetch() does not work on file://.
 
-// Which navbar link is active on each page
+// Which navbar link is active on each page (page name without ".html")
 const NAV_BY_PAGE = {
-  "aboutme.html": "aboutme",
-  "contact.html": "contact",
-  "portraits.html": "gallery",
-  "editorials.html": "gallery",
-  "projects.html": "gallery",
+  aboutme: "aboutme",
+  contact: "contact",
+  portraits: "gallery",
+  editorials: "gallery",
+  projects: "gallery",
 };
 
 // Replace a placeholder <div id="..."> with the component's HTML
@@ -29,7 +29,8 @@ async function loadComponent(placeholderId, url) {
 
 // Navbar: aria-current="page" on the link for the current page
 function markCurrentPage() {
-  const page = location.pathname.split("/").pop() || "index.html";
+  // Cloudflare serves clean URLs (/aboutme), Live Server keeps the extension (/aboutme.html)
+  const page = location.pathname.split("/").pop().replace(/\.html$/, "");
   const key = NAV_BY_PAGE[page];
   if (!key) return;
   document.querySelector(`.site-nav [data-nav="${key}"]`)?.setAttribute("aria-current", "page");
