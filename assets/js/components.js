@@ -32,8 +32,23 @@ function markCurrentPage() {
   // Cloudflare serves clean URLs (/aboutme), Live Server keeps the extension (/aboutme.html)
   const page = location.pathname.split("/").pop().replace(/\.html$/, "");
   const key = NAV_BY_PAGE[page];
-  if (!key) return;
-  document.querySelector(`.site-nav [data-nav="${key}"]`)?.setAttribute("aria-current", "page");
+  if (key) {
+    document.querySelector(`.site-nav [data-nav="${key}"]`)?.setAttribute("aria-current", "page");
+    return;
+  }
+  markGalleryOnHome();
+}
+
+// Home: "Gallery" links to index.html#work, so it is highlighted while that section is on screen
+function markGalleryOnHome() {
+  const work = document.getElementById("work");
+  const link = document.querySelector('.site-nav [data-nav="gallery"]');
+  if (!work || !link || !("IntersectionObserver" in window)) return;
+
+  new IntersectionObserver(([entry]) => {
+    if (entry.isIntersecting) link.setAttribute("aria-current", "location");
+    else link.removeAttribute("aria-current");
+  }, { rootMargin: "-50% 0px -50% 0px" }).observe(work); // section crosses the middle of the screen
 }
 
 // Footer: Substack signup confirmation message
