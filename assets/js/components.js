@@ -127,6 +127,37 @@ function initGalleryReveal() {
 
 initGalleryReveal();
 
+// Galleries: Portraits / Editorials / Projects are separate pages with the same hero,
+// so switching category keeps the scroll position instead of jumping back to the top
+const GALLERY_SCROLL_KEY = "gallery-scroll-y";
+
+function initGalleryScrollKeep() {
+  const links = document.querySelectorAll(".gallery-category-link");
+  if (!links.length) return;
+
+  links.forEach((link) => {
+    link.addEventListener("click", () => {
+      try { sessionStorage.setItem(GALLERY_SCROLL_KEY, String(window.scrollY)); } catch {}
+    });
+  });
+
+  let saved = null;
+  try {
+    saved = sessionStorage.getItem(GALLERY_SCROLL_KEY);
+    sessionStorage.removeItem(GALLERY_SCROLL_KEY); // only for the page opened by that click
+  } catch {}
+  const y = Number(saved);
+  if (saved === null || !Number.isFinite(y)) return;
+
+  if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+  // "instant": skip the smooth scrolling from Bootstrap's Reboot
+  const restore = () => window.scrollTo({ top: y, behavior: "instant" });
+  restore();
+  return restore; // run again once the footer is in, in case the page was too short at first
+}
+
+const restoreGalleryScroll = initGalleryScrollKeep();
+
 // Navbar: transparent at the top of the page, dark background once the page scrolls
 // (the fixed position itself is Bootstrap's fixed-top, see components/navbar.html)
 function initStickyHeader() {
@@ -154,6 +185,7 @@ Promise.all([
   loadComponent("site-footer", "components/footer.html"),
 ]).then(() => {
   markCurrentPage();
+  restoreGalleryScroll?.();
   initStickyHeader();
   initNewsletter();
 });
